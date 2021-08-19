@@ -13,14 +13,32 @@ class Lever : Component
 	}
 };
 
-void onTick(CBlob@ this)
-{
-    if (isClient() && getGameTime() % 13 == 0 && this.get_u8("state") == 1)
-    {
-        this.getSprite().PlaySound(digDirt[XORRandom(digDirt.length - 1)].filename, 1.0f, 1.0f);
-    }
-}
+u32 timer; // container
 
+void onTick(CBlob@ this) // runs body every tick
+{
+    if (isClient() && this.get_u8("state") == 1)
+	{
+	timer++;
+	if (timer == 13)
+	{
+		this.getSprite().PlaySound(digDirt[XORRandom(3)].filename, 3.0f);
+	}
+	else if (timer == 25)
+	{
+		this.getSprite().PlaySound(digDirt[XORRandom(3)].filename, 3.0f);
+	}
+	else if (timer == 37)
+	{
+		this.getSprite().PlaySound(digDirt[XORRandom(3)].filename, 3.0f);
+	}
+	else if (timer == 49)
+	{
+		this.getSprite().PlaySound(digDirt[3].filename, 3.0f);
+		timer = 0;
+	}
+	}
+}
 void onInit(CBlob@ this)
 {
 	// used by BuilderHittable.as
