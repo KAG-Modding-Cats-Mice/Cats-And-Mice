@@ -1,3 +1,4 @@
+#include "CustomBlocks.as";
 
 const f32 MAX_BUILD_LENGTH = 4.0f;
 
@@ -81,8 +82,9 @@ bool isBuildableAtPos(CBlob@ this, Vec2f p, TileType buildTile, CBlob @blob, boo
 		return false;
 	}
 
-	if ((buildTile == CMap::tile_wood && backtile.type >= CMap::tile_wood_d1 && backtile.type <= CMap::tile_wood_d0) ||
-			(buildTile == CMap::tile_castle && backtile.type >= CMap::tile_castle_d1 && backtile.type <= CMap::tile_castle_d0))
+	if ((buildTile == CMap::tile_wood && backtile.type >= CMap::tile_wood_d1 && backtile.type <= CMap::tile_wood_d0) ||                               //wood block
+			(buildTile == CMap::tile_castle && backtile.type >= CMap::tile_castle_d1 && backtile.type <= CMap::tile_castle_d0) ||                     //stone block
+			(buildTile == CMap::tile_goldenbrick && backtile.type >= CMap::tile_goldenbrick_d0 && backtile.type <= CMap::tile_goldenbrick_d6))        //gold block
 	{
 		//repair like tiles
 	}
