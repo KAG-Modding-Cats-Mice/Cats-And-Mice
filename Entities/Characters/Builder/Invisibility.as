@@ -14,12 +14,13 @@ void onTick( CBlob@ this )
 {	
 	bool ready = this.get_bool("invisibility ready");
 	const u32 gametime = getGameTime();
+	CControls@ controls = getControls();
 	
 	if(ready) 
     {
-		if (player !is null)
+		if (this !is null)
 		{
-			if (isClient() && player.isMyPlayer())
+			if (isClient() && this.isMyPlayer())
 			{
 				if (controls.isKeyJustPressed(KEY_KEY_R))
 				{
