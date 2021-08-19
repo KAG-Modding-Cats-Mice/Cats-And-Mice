@@ -17,18 +17,25 @@ void onTick( CBlob@ this )
 	
 	if(ready) 
     {
-		if(this.isKeyJustPressed( key_action3 )) 
-            {
-				this.set_u32("last invisibility", gametime);
-				this.set_bool("invisibility ready", false );
-				Invisibility(this);
+		if (player !is null)
+		{
+			if (isClient() && player.isMyPlayer())
+			{
+				if (controls.isKeyJustPressed(KEY_KEY_R))
+				{
+					this.set_u32("last invisibility", gametime);
+					this.set_bool("invisibility ready", false );
+					Invisibility(this);
+				}
 			}
+		}
 	} else 
     {		
 		u32 lastInvisibility = this.get_u32("last invisibility");
 		int diff = gametime - (lastInvisibility + INVISIBILITY_FREQUENCY);
 		
-		if(this.isKeyJustPressed( key_action3 ) && this.isMyPlayer()){
+		if(controls.isKeyJustPressed(KEY_KEY_R) && this.isMyPlayer())
+		{
 			Sound::Play("Entities/Characters/Sounds/NoAmmo.ogg");
 		}
 
@@ -45,7 +52,7 @@ void Invisibility( CBlob@ this) //check the anim and logic files too
 	//turn ourselves invisible
 	ParticleAnimated( "LargeSmoke.png", this.getPosition(), Vec2f(0,0), 0.0f, 1.0f, 1.5, -0.1f, false );
 	this.set_u32("invisible", 10*30); //10 secs
-
+	
     //sound
 	//CBlob@[] nearBlobs;
 	//this.getMap().getBlobsInRadius( this.getPosition(), SOUND_DISTANCE, @nearBlobs );
