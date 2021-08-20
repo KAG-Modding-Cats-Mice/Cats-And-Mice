@@ -67,7 +67,7 @@ void onTick(CSprite@ this)
 
     //blob.SetVisible(true); //make sure to make us visible again
 
-    if(blob.get_u32("invisible") > 0) //check if the invisible timer is higher than 0, make us invisible
+    if(blob.get_u32("invisible") > 1) //check if the invisible timer is higher than 0, make us invisible
 	{
 		blob.SetVisible(false);
 	}

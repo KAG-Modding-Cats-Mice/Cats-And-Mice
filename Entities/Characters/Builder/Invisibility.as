@@ -8,6 +8,9 @@ void onInit( CBlob@ this )
 	this.set_u32("last invisibility", 0 );
 	this.set_bool("invisibility ready", true );
 	this.set_u32("invisible", 0);
+	this.Sync("invisible", true);
+
+	this.addCommandID("invisibility");
 }
 
 void onTick( CBlob@ this ) 
@@ -26,7 +29,7 @@ void onTick( CBlob@ this )
 				{
 					this.set_u32("last invisibility", gametime);
 					this.set_bool("invisibility ready", false );
-					Invisibility(this);
+					this.SendCommand(this.getCommandID("invisibility"));
 				}
 			}
 		}
@@ -48,11 +51,20 @@ void onTick( CBlob@ this )
 	}
 }
 
+void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
+{
+    if (cmd == this.getCommandID("invisibility"))
+    {
+        Invisibility(this);
+    }
+}
+
 void Invisibility( CBlob@ this) //check the anim and logic files too	
 {	
 	//turn ourselves invisible
 	ParticleAnimated( "LargeSmoke.png", this.getPosition(), Vec2f(0,0), 0.0f, 1.0f, 1.5, -0.1f, false );
 	this.set_u32("invisible", 10*30); //10 secs
+	this.Sync("invisible", true);
 	
     //sound
 	//CBlob@[] nearBlobs;

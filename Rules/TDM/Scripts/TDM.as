@@ -1,4 +1,3 @@
-
 //TDM gamemode logic script
 
 #define SERVER_ONLY
@@ -10,10 +9,21 @@
 //edit the variables in the config file below to change the basics
 // no scripting required!
 string cost_config_file = "tdm_vars.cfg";
+int16 ticks_to_bomb = 0;
 
 void onTick(CRules@ this)
 {
-    if (isServer() && getGameTime() == 6660) // appears on 20 second
+	CRules @rules = getRules();
+	if (getGameTime() == 1)
+	{
+		ticks_to_bomb = 5250;
+	}
+	else if (!rules.isWarmup() && ticks_to_bomb >= 0)
+	{
+		ticks_to_bomb -= 1;
+	}
+
+    if (isServer() && ticks_to_bomb == 0) // appears on 20 second
     {
         for (int i = 0; i < getPlayersCount(); i++) // loop through every player on server
         {

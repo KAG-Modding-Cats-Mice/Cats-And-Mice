@@ -1,3 +1,4 @@
+int16 ticks_to_sound = 0;
 
 class MiceSound
 {
@@ -22,7 +23,17 @@ const MiceSound@[] squeak =
 
 void onTick(CRules@ this)
 {
-    if (getGameTime() % 300 == 0 && getGameTime() > 5250)
+	CRules @rules = getRules();
+	if (getGameTime() == 1)
+	{
+		ticks_to_sound = 4050;
+	}
+	else if (!rules.isWarmup() && ticks_to_sound > 0)
+	{
+		ticks_to_sound -= 1;
+	}
+
+    if (getGameTime() % 300 == 0 && ticks_to_sound == 0)
     {
     	for (int i = 0; i < getPlayersCount(); i++) // loop through every player on server
        	{

@@ -56,5 +56,5 @@ void Dash( CBlob@ this) //check the anim and logic files too
 	velocity.Normalize();
 	// velocity.y *= 0.5f;
 				
-	this.setVelocity(velocity * 7);
+	this.setVelocity(velocity * 6);
 }
