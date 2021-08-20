@@ -66,15 +66,15 @@ void onTick(CSprite@ this)
 	CBlob@ blob = this.getBlob();
 
     //blob.SetVisible(true); //make sure to make us visible again
-	
-    if(blob.get_u32("invisible") > 0) //check if the invisible timer is higher than 0, make us invisible
+
+    if(blob.get_u32("invisible") > 1) //check if the invisible timer is higher than 0, make us invisible
 	{
-		blob.getSprite().SetVisible(false);
+		blob.SetVisible(false);
 	}
 	if(blob.get_u32("invisible") == 1) //make a lightning effect when we're just about to become visible again
 	{
 		ParticleZombieLightning( blob.getPosition() );
-        blob.getSprite().SetVisible(true); //make sure to make us visible again
+        blob.SetVisible(true); //make sure to make us visible again
 	}	
 
 	
