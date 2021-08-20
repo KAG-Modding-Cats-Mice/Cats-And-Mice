@@ -116,7 +116,7 @@ void onTick(CBlob@ this)
 		}
 	}
 
-    if(this.get_u32("invisible") > 1) //lower the invisible timer
+    if(this.get_u32("invisible") > 0) //lower the invisible timer
 	{
 		this.set_u32("invisible", this.get_u32("invisible") - 1);
 		this.Sync("invisible", true);
