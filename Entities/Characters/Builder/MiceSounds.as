@@ -26,7 +26,7 @@ void onTick(CRules@ this)
 	CRules @rules = getRules();
 	if (getGameTime() == 1)
 	{
-		ticks_to_sound = 4050;
+		ticks_to_sound = 5400;
 	}
 	else if (!rules.isWarmup() && ticks_to_sound > 0)
 	{
