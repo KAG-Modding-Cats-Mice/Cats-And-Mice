@@ -72,10 +72,11 @@ void onRender(CSprite@ this)
 	if (diff > 0)
 	{
 		GUI::DrawIcon( "Invisibility.png", 0, Vec2f(16,16), Vec2f(11,158));
+		GUI::SetFont("menu"); GUI::DrawText("  R button", Vec2f(25,175), SColor(255, 255, 216, 0));
 	}
 	else
 	{
 		GUI::DrawIcon( "MenuItems.png", 13, Vec2f(32,32), Vec2f(10,158), 0.5f);
-		GUI::SetFont("menu"); GUI::DrawText("" + cooldownInvisibilitySecs, Vec2f(25,175), SColor(255, 255, 216, 0));
+		GUI::SetFont("menu"); GUI::DrawText("" + cooldownInvisibilitySecs + "  R button", Vec2f(25,175), SColor(255, 255, 216, 0));
 	}
 }
