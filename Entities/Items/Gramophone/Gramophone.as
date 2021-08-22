@@ -77,7 +77,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 				}
 				
 				GramophoneRecord record = records[track_id - 1];
-				if (record is null) {
+				if (record is null || track_id >= 13) {
 				return;
 				}
 				else

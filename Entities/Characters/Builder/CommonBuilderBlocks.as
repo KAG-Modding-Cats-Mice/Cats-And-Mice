@@ -64,12 +64,12 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int team_num = 0, const stri
 	}
 	{
 		BuildBlock b(CMap::tile_goldenbrick, "tile_goldenbrick", "$goldblock$", "Cheese block\nCan be mined by cats");
-		AddRequirement(b.reqs, "blob", "mat_gold", "Cheese", 27);
+		AddRequirement(b.reqs, "blob", "mat_gold", "Cheese", 25);
 		blocks[0].push_back(b);
 	}
 	{
 		BuildBlock b(0, "trap_block", "$trap_block$", "Trap Block\nOnly enemies can pass");
-		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 35);
+		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 30);
 		blocks[0].push_back(b);
 	}
 	/*{
@@ -84,7 +84,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int team_num = 0, const stri
 	}
 	{
 		BuildBlock b(0, "spikes", "$spikes$", "Spikes\nPlace on Stone Block\nfor Retracting Trap");
-		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 30);
+		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 25);
 		blocks[0].push_back(b);
 	}
 	{

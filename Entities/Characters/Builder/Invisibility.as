@@ -63,7 +63,7 @@ void Invisibility( CBlob@ this) //check the anim and logic files too
 {	
 	//turn ourselves invisible
 	ParticleAnimated( "LargeSmoke.png", this.getPosition(), Vec2f(0,0), 0.0f, 1.0f, 1.5, -0.1f, false );
-	this.set_u32("invisible", 10*30); //10 secs
+	this.set_u32("invisible", 15*30); //15 secs
 	this.Sync("invisible", true);
 	
     //sound
