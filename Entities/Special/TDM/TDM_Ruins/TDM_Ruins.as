@@ -10,10 +10,15 @@ void onInit(CBlob@ this)
 {
 	this.CreateRespawnPoint("ruins", Vec2f(0.0f, 16.0f));
 
+	//MICE
 	AddIconToken("$builder_class_icon$", "Entities/Characters/Builder/RegularRat.png", Vec2f(25, 25), 12);
 	AddIconToken("$fatrat_class_icon$", "Entities/Characters/FatRat/FatRat.png", Vec2f(25, 25), 16);
+	// ADD NEW MICE CLASSES ONLY HERE (OR U GONNA MAKE CLASS SEPARATION FUNCTION WORK WRONG)
+
+	//CATS
 	AddIconToken("$knight_class_icon$", "Entities/Characters/Knight/RegularCat.png", Vec2f(25, 25), 16);
 	AddIconToken("$fatcat_class_icon$", "Entities/Characters/FatCat/FatCat.png", Vec2f(25, 25), 16);
+	// ADD NEW CATS CLASSES ONLY HERE (OR U GONNA MAKE CLASS SEPARATION FUNCTION WORK WRONG)
 	
 	AddIconToken("$change_class$", "/GUI/InteractionIcons.png", Vec2f(32, 32), 12, 2);
 	
