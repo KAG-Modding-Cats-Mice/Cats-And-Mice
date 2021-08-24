@@ -22,10 +22,16 @@ void onInit(CBlob@ this)
 	
 	AddIconToken("$change_class$", "/GUI/InteractionIcons.png", Vec2f(32, 32), 12, 2);
 	
+	//MICE
 	addPlayerClass(this, "Regular rat", "$builder_class_icon$", "builder", "Rat");
 	addPlayerClass(this, "Fat rat", "$fatrat_class_icon$", "fatrat", "Rat");
+	// ADD NEW MICE CLASSES ONLY HERE (OR U GONNA MAKE CLASS SEPARATION FUNCTION WORK WRONG)
+
+	//CATS
 	addPlayerClass(this, "Regular Cat", "$knight_class_icon$", "knight", "Cat");
 	addPlayerClass(this, "Fat Cat", "$fatcat_class_icon$", "fatcat", "Cat");
+	// ADD NEW CATS CLASSES ONLY HERE (OR U GONNA MAKE CLASS SEPARATION FUNCTION WORK WRONG)
+
 
 	this.getShape().SetStatic(true);
 	this.getShape().getConsts().mapCollisions = false;
