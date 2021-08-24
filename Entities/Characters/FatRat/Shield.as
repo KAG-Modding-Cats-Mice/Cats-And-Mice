@@ -1,7 +1,7 @@
 #include "Knocked.as";
 #include "RunnerCommon.as"; //
 
-const int SHIELD_FREQUENCY = 45 * 30; // 45 secs
+const int SHIELD_FREQUENCY = 75 * 30; // 75 secs
 
 void onInit( CBlob@ this )
 {
@@ -84,7 +84,7 @@ void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
 
 void Shield(CBlob@ this)	
 {	
-	this.set_u32("shield", 15*30);
+	this.set_u32("shield", 7.5*30);
 	this.Sync("shield", true);
 	
 	Vec2f targetPos = this.getAimPos() + Vec2f(0.0f,-2.0f);
