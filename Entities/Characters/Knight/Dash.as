@@ -1,11 +1,11 @@
 #include "Knocked.as";
 
-const int DASH_FREQUENCY = 30 * 30; //60 secs
+const int DASH_FREQUENCY = 60 * 30; //60 secs
 
 void onInit( CBlob@ this )
 {
-	this.set_u32("last dash", 0 );
-	this.set_bool("dash ready", true );
+	this.set_u32("last dash", 0);
+	this.set_bool("dash ready", true);
 	this.set_u32("dash", 0);
 }
 
@@ -15,7 +15,7 @@ void onTick( CBlob@ this )
 	const u32 gametime = getGameTime();
 	CControls@ controls = getControls();
 	
-	if(ready) 
+	if (ready) 
     {
 		if (this !is null)
 		{
@@ -24,7 +24,7 @@ void onTick( CBlob@ this )
 				if (controls.isKeyJustPressed(KEY_KEY_R))
 				{
 					this.set_u32("last dash", gametime);
-					this.set_bool("dash ready", false );
+					this.set_bool("dash ready", false);
 					Dash(this);
 				}
 			}
@@ -41,20 +41,20 @@ void onTick( CBlob@ this )
 
 		if (diff > 0)
 		{
-			this.set_bool("dash ready", true );
+			this.set_bool("dash ready", true);
 			this.getSprite().PlaySound("/Cooldown1.ogg"); 
 		}
 	}
 }
 
-void Dash( CBlob@ this) //check the anim and logic files too	
+void Dash(CBlob@ this) //check the anim and logic files too	
 {	
     Vec2f vel = this.getVelocity();
-	this.AddForce(Vec2f(vel.x * -5.0, 0.0f));   //horizontal slowing force (prevents SANICS)
+	this.AddForce(Vec2f(vel.x * 5.0, 0.0f));   //horizontal slowing force (prevents SANICS)
 			
 	Vec2f velocity = this.getAimPos() - this.getPosition();
 	velocity.Normalize();
 	// velocity.y *= 0.5f;
 				
-	this.setVelocity(velocity * 6);
+	this.setVelocity(velocity * 5);
 }

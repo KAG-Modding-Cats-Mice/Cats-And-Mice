@@ -3,6 +3,18 @@
 #include "GramophoneCommon.as";
 #include "CargoAttachmentCommon.as";
 
+bool canBePickedUp(CBlob@ this, CBlob@ byBlob)
+{
+	CPlayer@ byPlayer = byBlob.getPlayer();
+	if (byPlayer !is null && byPlayer.isMod())
+	{
+ 		return true;
+	} else
+	{
+		return false;
+	}
+}
+
 void onInit(CBlob@ this)
 {
 	this.set_u8("track_id", 255);
@@ -75,23 +87,27 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 				{
 					carried.server_Die();
 				}
-				
-				GramophoneRecord record = records[track_id - 1];
-				if (record is null || track_id >= 13) {
-				return;
-				}
-				else
+				if (records[track_id] !is null)
 				{
-					sprite.RewindEmitSound();
-					sprite.SetEmitSound(record.filename);
-					sprite.SetEmitSoundPaused(false);
+					GramophoneRecord record = records[track_id];
 					
-					sprite.SetAnimation("playing");
-					CSpriteLayer@ sl_disc = sprite.getSpriteLayer("disc");
-					if (sl_disc !is null)
+					if (record is null)
 					{
-						sl_disc.SetFrameIndex(track_id);
-						sl_disc.SetVisible(true);
+						return;
+					}
+					else
+					{
+						sprite.RewindEmitSound();
+						sprite.SetEmitSound(record.filename);
+						sprite.SetEmitSoundPaused(false);
+						
+						sprite.SetAnimation("playing");
+						CSpriteLayer@ sl_disc = sprite.getSpriteLayer("disc");
+						if (sl_disc !is null)
+						{
+							sl_disc.SetFrameIndex(track_id);
+							sl_disc.SetVisible(true);
+						}
 					}
 				}
 			}

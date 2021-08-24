@@ -33,6 +33,9 @@ void onTick( CBlob@ this )
 				}
 			}
 		}
+	} else if (this.get_u32("invisible") > 15*30) 
+	{
+		this.Sync("invisible", false);
 	} else 
     {		
 		u32 lastInvisibility = this.get_u32("last invisibility");
@@ -59,7 +62,7 @@ void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
     }
 }
 
-void Invisibility( CBlob@ this) //check the anim and logic files too	
+void Invisibility(CBlob@ this) //check the anim and logic files too	
 {	
 	//turn ourselves invisible
 	ParticleAnimated( "LargeSmoke.png", this.getPosition(), Vec2f(0,0), 0.0f, 1.0f, 1.5, -0.1f, false );
