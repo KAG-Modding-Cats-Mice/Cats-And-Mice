@@ -63,7 +63,6 @@ void Shield(CBlob@ this)
 	map.getBlobsInRadius(this.getPosition(), 64.0f, @blobs);
 	for(int i = 0; i < blobs.length; i++)
 	{
-		ParticleAnimated( "LargeSmoke.png", this.getPosition(), Vec2f(0,0), 0.0f, 1.0f, 1.5, -0.1f, false );
 		Vec2f vel = this.getVelocity();
 		CBlob@ b = blobs[i];
 		if (b.getPlayer() !is null && b.getTeamNum() != this.getTeamNum())

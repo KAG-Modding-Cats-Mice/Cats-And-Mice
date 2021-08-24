@@ -1,7 +1,7 @@
 #include "Knocked.as";
 #include "RunnerCommon.as"; //
 
-const int HEAL_FREQUENCY = 45 * 30; // 45 secs
+const int HEAL_FREQUENCY = 60 * 30; // 45 secs
 
 void onInit( CBlob@ this )
 {
@@ -56,20 +56,11 @@ void onTick(CBlob@ this)
 
 void heal(CBlob@ this)	
 {	
-	this.set_u32("heal", 5*30);
-	this.Sync("heal", true);
-	CMap@ map = getMap();
-	CBlob@[] blobs;
-	map.getBlobsInRadius(this.getPosition(), 64.0f, @blobs);
-	for(int i = 0; i < blobs.length; i++)
+	this.set_string("eat sound", "blobob.ogg");
+	if (this !is null)
 	{
-		ParticleAnimated( "LargeSmoke.png", this.getPosition(), Vec2f(0,0), 0.0f, 1.0f, 1.5, -0.1f, false );
-		Vec2f vel = this.getVelocity();
-		CBlob@ b = blobs[i];
-		if (b.getPlayer() !is null && b.getTeamNum() != this.getTeamNum())
-		{
-			return;
-			//b.addForce(Vec2f(vel.x * 100.0f, 100.0f));
-		}
+		ParticleAnimated( "Heal.png", this.getPosition(), Vec2f(0,0), 0.0f, 1.0f, 1.5, -0.1f, false );
+		this.server_SetHealth(3.0f);
+		this.getSprite().PlaySound(this.get_string("eat sound"));
 	}
 }
