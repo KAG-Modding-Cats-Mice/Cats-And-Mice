@@ -2,12 +2,14 @@
 #include "RunnerCommon.as"; //
 
 const int HEAL_FREQUENCY = 60 * 30; // 45 secs
-
+const float HEALRADIUS = 8*10;
 void onInit( CBlob@ this )
 {
 	this.set_u32("last heal", 0);
 	this.set_bool("heal ready", true);
 	this.set_u32("heal", 0);
+
+	this.addCommandID("heal");
 }
 
 void onTick(CBlob@ this) 
@@ -26,7 +28,7 @@ void onTick(CBlob@ this)
 				{
 					this.set_u32("last heal", gametime);
 					this.set_bool("heal ready", false);
-					heal(this);
+					this.SendCommand(this.getCommandID("heal"));
 				}
 			}
 		}
@@ -54,13 +56,50 @@ void onTick(CBlob@ this)
     }
 }
 
-void heal(CBlob@ this)	
-{	
-	this.set_string("eat sound", "blobob.ogg");
-	if (this !is null)
+void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
+{
+	if (cmd == this.getCommandID("heal"))
 	{
-		ParticleAnimated( "Heal.png", this.getPosition(), Vec2f(0,0), 0.0f, 1.0f, 1.5, -0.1f, false );
-		this.server_SetHealth(3.0f);
-		this.getSprite().PlaySound(this.get_string("eat sound"), 3.0f);
+		Heal(this);
+	}
+}
+
+void Heal(CBlob@ this)	
+{	
+	CMap@ map = getMap();
+	CBlob@[] blobs;
+	map.getBlobsInRadius(this.getPosition(),HEALRADIUS,@blobs);
+	f32 minHealthInRadius = 100;
+
+	this.server_SetHealth(this.getInitialHealth()); //heals MyPlayer before finding most hurted teammate in radius
+	this.set_string("eat sound", "HealSkill.ogg");
+	this.getSprite().PlaySound("HealSkill.ogg", 3.0f);
+	ParticleAnimated( "Heal.png", this.getPosition(), Vec2f(0,0), 0.0f, 1.0f, 1.5, -0.1f, false );
+
+	for (int i = 0; i < blobs.length; i++) // finds most hurted
+	{
+		CBlob@ b = blobs[i];
+
+		f32 health = b.getHealth();
+		if (health < minHealthInRadius)
+		{
+			minHealthInRadius = health;
+		}
+	}
+
+	for (int i = 0; i < blobs.length; i++) 
+	{
+		CBlob@ b = blobs[i];
+
+		if(b.getPlayer() !is null && b.getTeamNum() == this.getTeamNum()) // heals most hurted
+		{
+			f32 initHealth = b.getInitialHealth();
+			if (b.getHealth() == minHealthInRadius)
+			{
+				ParticleAnimated( "Heal.png", b.getPosition(), Vec2f(0,0), 0.0f, 1.0f, 1.5, -0.1f, false );
+				b.server_SetHealth(initHealth);
+				b.getSprite().PlaySound("HealSkill.ogg", 3.0f);
+			}
+		}
 	}
 }

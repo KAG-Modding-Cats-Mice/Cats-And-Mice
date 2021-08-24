@@ -54,6 +54,7 @@ void onSetPlayer(CBlob@ this, CPlayer@ player)
 
 void onTick(CBlob@ this)
 {
+
 	if (this.isInInventory())
 		return;
 

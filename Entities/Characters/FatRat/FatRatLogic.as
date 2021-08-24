@@ -54,6 +54,15 @@ void onSetPlayer(CBlob@ this, CPlayer@ player)
 
 void onTick(CBlob@ this)
 {
+	if(this.get_u32("shield") > 1)
+	{
+		this.SendCommand(this.getCommandID("addMaterializing"));
+	}
+	if(this.get_u32("shield") == 1)
+	{
+		this.SendCommand(this.getCommandID("removeMaterializing"));
+	}	
+
 	if (this.isInInventory())
 		return;
 
@@ -116,10 +125,10 @@ void onTick(CBlob@ this)
 		}
 	}
 
-    if(this.get_u32("invisible") > 0) //lower the invisible timer
+    if(this.get_u32("shield") > 0) //lower the shield timer
 	{
-		this.set_u32("invisible", this.get_u32("invisible") - 1);
-		this.Sync("invisible", true);
+		this.set_u32("shield", this.get_u32("shield") - 1);
+		this.Sync("shield", true);
 	}	
 }
 

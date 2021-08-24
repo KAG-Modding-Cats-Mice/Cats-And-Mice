@@ -8,6 +8,10 @@ void onInit( CBlob@ this )
 	this.set_u32("last shield", 0);
 	this.set_bool("shield ready", true);
 	this.set_u32("shield", 0);
+
+	this.addCommandID("shield");
+	this.addCommandID("addMaterializing");
+	this.addCommandID("removeMaterializing");
 }
 
 void onTick(CBlob@ this) 
@@ -26,7 +30,8 @@ void onTick(CBlob@ this)
 				{
 					this.set_u32("last shield", gametime);
 					this.set_bool("shield ready", false);
-					Shield(this);
+					this.SendCommand(this.getCommandID("addMaterializing"));
+					this.SendCommand(this.getCommandID("shield"));
 				}
 			}
 		}
@@ -54,21 +59,47 @@ void onTick(CBlob@ this)
     }
 }
 
+void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
+{
+		if(!isServer())
+	{
+		return;
+	}
+
+	if (cmd == this.getCommandID("addMaterializing"))
+	{
+		this.Tag("materializing");
+	}
+
+	if (cmd == this.getCommandID("removeMaterializing"))
+	{
+		this.Untag("materializing");
+	}
+
+	if (cmd == this.getCommandID("shield"))
+	{
+		Shield(this);
+	}
+}
+
 void Shield(CBlob@ this)	
 {	
-	this.set_u32("shield", 5*30);
+	this.set_u32("shield", 15*30);
 	this.Sync("shield", true);
-	CMap@ map = getMap();
-	CBlob@[] blobs;
-	map.getBlobsInRadius(this.getPosition(), 64.0f, @blobs);
-	for(int i = 0; i < blobs.length; i++)
+	
+	Vec2f targetPos = this.getAimPos() + Vec2f(0.0f,-2.0f);
+	Vec2f userPos = this.getPosition() + Vec2f(0.0f,-2.0f);
+	Vec2f castDir = (targetPos- userPos);
+	castDir.Normalize();
+	castDir *= 20; //all of this to get deviation 2.5 blocks in front of caster
+	Vec2f castPos = userPos + castDir; //exact position of effect
+
+	CBlob@ barrier = server_CreateBlob( "battering_ram" ); //creates "supershield"
+	if (barrier !is null)
 	{
-		Vec2f vel = this.getVelocity();
-		CBlob@ b = blobs[i];
-		if (b.getPlayer() !is null && b.getTeamNum() != this.getTeamNum())
-		{
-			return;
-			//b.addForce(Vec2f(vel.x * 100.0f, 100.0f));
-		}
+		barrier.SetDamageOwnerPlayer( this.getPlayer() ); //<<important
+		barrier.server_setTeamNum( this.getTeamNum() );
+		barrier.setPosition( castPos );
+		barrier.setAngleDegrees(-castDir.Angle()+90.0f);
 	}
 }
