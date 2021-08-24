@@ -57,4 +57,6 @@ void Dash(CBlob@ this) //check the anim and logic files too
 	// velocity.y *= 0.5f;
 				
 	this.setVelocity(velocity * 5);
+	this.set_string("sweep", "sweep.ogg");
+	this.getSprite().PlaySound(this.get_string("sweep"));
 }

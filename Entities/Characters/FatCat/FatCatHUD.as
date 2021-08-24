@@ -3,7 +3,7 @@
 #include "Heal.as";
 #include "/Entities/Common/GUI/ActorHUDStartPos.as";
 
-const string iconsFilename = "Entities/Characters/Builder/BuilderIcons.png";
+const string iconsFilename = "Entities/Characters/Builder/KnightIcons.png";
 const int slotsSize = 6;
 
 void onInit(CSprite@ this)

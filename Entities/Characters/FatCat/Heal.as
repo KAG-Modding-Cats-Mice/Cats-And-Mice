@@ -61,6 +61,6 @@ void heal(CBlob@ this)
 	{
 		ParticleAnimated( "Heal.png", this.getPosition(), Vec2f(0,0), 0.0f, 1.0f, 1.5, -0.1f, false );
 		this.server_SetHealth(3.0f);
-		this.getSprite().PlaySound(this.get_string("eat sound"));
+		this.getSprite().PlaySound(this.get_string("eat sound"), 3.0f);
 	}
 }

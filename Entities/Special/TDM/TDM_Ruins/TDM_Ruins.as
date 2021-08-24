@@ -9,16 +9,19 @@
 void onInit(CBlob@ this)
 {
 	this.CreateRespawnPoint("ruins", Vec2f(0.0f, 16.0f));
+
 	AddIconToken("$builder_class_icon$", "Entities/Characters/Builder/RegularRat.png", Vec2f(25, 25), 12);
 	AddIconToken("$fatrat_class_icon$", "Entities/Characters/FatRat/FatRat.png", Vec2f(25, 25), 16);
-	AddIconToken("$knight_class_icon$", "Entities/Characters/FatRat/Regularcat.png", Vec2f(25, 25), 16);
-	AddIconToken("$fatcat_class_icon$", "Entities/Characters/FatRat/FatCat.png", Vec2f(25, 25), 16);
+	AddIconToken("$knight_class_icon$", "Entities/Characters/Knight/RegularCat.png", Vec2f(25, 25), 16);
+	AddIconToken("$fatcat_class_icon$", "Entities/Characters/FatCat/FatCat.png", Vec2f(25, 25), 16);
+	
 	AddIconToken("$change_class$", "/GUI/InteractionIcons.png", Vec2f(32, 32), 12, 2);
-	//TDM classes
+	
 	addPlayerClass(this, "Regular rat", "$builder_class_icon$", "builder", "Rat");
 	addPlayerClass(this, "Fat rat", "$fatrat_class_icon$", "fatrat", "Rat");
-	addPlayerClass(this, "Regular cat", "$knight_class_icon$", "knight", "Cat");
-	addPlayerClass(this, "Fat cat", "$fatcat_class_icon$", "fatcat", "Cat");
+	addPlayerClass(this, "Regular Cat", "$knight_class_icon$", "knight", "Cat");
+	addPlayerClass(this, "Fat Cat", "$fatcat_class_icon$", "fatcat", "Cat");
+
 	this.getShape().SetStatic(true);
 	this.getShape().getConsts().mapCollisions = false;
 	this.addCommandID("class menu");
