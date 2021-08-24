@@ -33,9 +33,6 @@ void onTick( CBlob@ this )
 				}
 			}
 		}
-	} else if (this.get_u32("invisible") > 15*30) 
-	{
-		this.Sync("invisible", false);
 	} else 
     {		
 		u32 lastInvisibility = this.get_u32("last invisibility");
