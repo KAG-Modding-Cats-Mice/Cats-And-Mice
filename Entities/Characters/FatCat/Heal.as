@@ -60,11 +60,11 @@ void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
 {
 	if (cmd == this.getCommandID("heal"))
 	{
-		heal(this);
+		Heal(this);
 	}
 }
 
-void heal(CBlob@ this)	
+void Heal(CBlob@ this)	
 {	
 	CMap@ map = getMap();
 	CBlob@[] blobs;
