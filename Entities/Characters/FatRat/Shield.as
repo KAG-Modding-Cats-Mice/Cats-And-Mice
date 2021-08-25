@@ -16,6 +16,12 @@ void onInit( CBlob@ this )
 
 void onTick(CBlob@ this) 
 {	
+	int overTime = this.get_u32("shield");
+	if (overTime > 10*30)
+	{
+		this.set_u32("shield", 9.9*30);
+	}
+
 	bool ready = this.get_bool("shield ready");
 	const u32 gametime = getGameTime();
 	CControls@ controls = getControls();
@@ -84,7 +90,7 @@ void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
 
 void Shield(CBlob@ this)	
 {	
-	this.set_u32("shield", 7.5*30);
+	this.set_u32("shield", 10*30);
 	this.Sync("shield", true);
 	
 	Vec2f targetPos = this.getAimPos() + Vec2f(0.0f,-2.0f);
@@ -101,5 +107,6 @@ void Shield(CBlob@ this)
 		barrier.server_setTeamNum( this.getTeamNum() );
 		barrier.setPosition( castPos );
 		barrier.setAngleDegrees(-castDir.Angle()+90.0f);
+		this.getSprite().PlaySound("ShieldStart.ogg", 3.0f);
 	}
 }

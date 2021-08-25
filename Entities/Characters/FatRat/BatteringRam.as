@@ -49,7 +49,7 @@ void onTick( CBlob@ this )
 	Vec2f userPos = ownerBlob.getPosition() + Vec2f(0.0f,-2.0f);
 	Vec2f castDir = (targetPos- userPos);
 	castDir.Normalize();
-	castDir *= 20; //all of this to get deviation 3 blocks in front of caster
+	castDir *= 30; //all of this to get deviation 3 blocks in front of caster
 	Vec2f castPos = userPos + castDir; //exact position of effect
 
 	this.setPosition( castPos );
@@ -62,7 +62,7 @@ void onDie(CBlob@ this)
 	
 	shieldSparks(this.getPosition(), 30, this.getAngleDegrees(), this.getTeamNum());
 	
-	this.getSprite().PlaySound("EnergySound2.ogg", 1.0f, 1.0f);
+	this.getSprite().PlaySound("ShieldEnd.ogg", 1.0f, 1.0f);
 }
 
 void onSetStatic(CBlob@ this, const bool isStatic)

@@ -41,7 +41,7 @@ void onTick(CRules@ this)
 
             if (blob is null) continue; // if blob is null (because player is dead, for example), skip this iteration
 
-            if (blob.getName() == "builder")
+            if (blob.getName() == "builder" || blob.getName() == "fatrat")
             {
 	        Sound::Play(squeak[XORRandom(squeak.length - 1)].filename, blob.getPosition(), 1.5f, 1.0f);
 	        }

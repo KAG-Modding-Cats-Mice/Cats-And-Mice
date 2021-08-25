@@ -37,38 +37,44 @@ void addPlayerClass(CBlob@ this, string name, string iconName, string configFile
 
 void addClassesToMenuMice(CBlob@ this, CGridMenu@ menu, u16 callerID)
 {
-	PlayerClass[]@ classes;
-
-	if (this.get("playerclasses", @classes))
+	if (getGameTime() <= 40 * 30)
 	{
-		for (uint i = 0 ; i < classes.length/2 ; i++) //remove two last classes (cats)
+		PlayerClass[]@ classes;
+
+		if (this.get("playerclasses", @classes))
 		{
-			PlayerClass @pclass = classes[i];
+			for (uint i = 0 ; i < classes.length/2 ; i++) //remove two last classes (cats)
+			{
+				PlayerClass @pclass = classes[i];
 
-			CBitStream params;
-			write_classchange(params, callerID, pclass.configFilename);
+				CBitStream params;
+				write_classchange(params, callerID, pclass.configFilename);
 
-			CGridButton@ button = menu.AddButton(pclass.iconName, getTranslatedString(pclass.name), SpawnCmd::changeClass, Vec2f(CLASS_BUTTON_SIZE, CLASS_BUTTON_SIZE), params);
-			//button.SetHoverText( pclass.description + "\n" );
+				CGridButton@ button = menu.AddButton(pclass.iconName, getTranslatedString(pclass.name), SpawnCmd::changeClass, Vec2f(CLASS_BUTTON_SIZE, CLASS_BUTTON_SIZE), params);
+				//button.SetHoverText( pclass.description + "\n" );
+			}
 		}
 	}
 }
 
 void addClassesToMenuCats(CBlob@ this, CGridMenu@ menu, u16 callerID)
 {
-	PlayerClass[]@ classes;
-
-	if (this.get("playerclasses", @classes))
+	if (getGameTime() <= 40 * 30)
 	{
-		for (uint i = classes.length/2 ; i < classes.length; i++) // remove first two classes (mice)
+		PlayerClass[]@ classes;
+
+		if (this.get("playerclasses", @classes))
 		{
-			PlayerClass @pclass = classes[i];
+			for (uint i = classes.length/2 ; i < classes.length; i++) // remove first two classes (mice)
+			{
+				PlayerClass @pclass = classes[i];
 
-			CBitStream params;
-			write_classchange(params, callerID, pclass.configFilename);
+				CBitStream params;
+				write_classchange(params, callerID, pclass.configFilename);
 
-			CGridButton@ button = menu.AddButton(pclass.iconName, getTranslatedString(pclass.name), SpawnCmd::changeClass, Vec2f(CLASS_BUTTON_SIZE, CLASS_BUTTON_SIZE), params);
-			//button.SetHoverText( pclass.description + "\n" );
+				CGridButton@ button = menu.AddButton(pclass.iconName, getTranslatedString(pclass.name), SpawnCmd::changeClass, Vec2f(CLASS_BUTTON_SIZE, CLASS_BUTTON_SIZE), params);
+				//button.SetHoverText( pclass.description + "\n" );
+			}
 		}
 	}
 }

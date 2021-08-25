@@ -1,7 +1,7 @@
 #include "Knocked.as";
 #include "RunnerCommon.as"; //
 
-const int HEAL_FREQUENCY = 60 * 30; // 45 secs
+const int HEAL_FREQUENCY = 90 * 30; // 90 secs
 const float HEALRADIUS = 8*10;
 void onInit( CBlob@ this )
 {

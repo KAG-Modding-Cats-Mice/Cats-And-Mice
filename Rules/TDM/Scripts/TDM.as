@@ -31,7 +31,7 @@ void onTick(CRules@ this)
 
             if (blob is null) continue; // if blob is null (because player is dead, for example), skip this iteration
 
-            if (blob.getName() == "knight")
+            if (blob.getName() == "knight" || blob.getName() == "fatcat")
             {
                 // create mat_bombs
                 CBlob@ bomb = server_CreateBlob("mat_bombs",            // blob name
