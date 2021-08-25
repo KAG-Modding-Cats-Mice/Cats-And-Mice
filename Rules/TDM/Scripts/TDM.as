@@ -16,7 +16,7 @@ void onTick(CRules@ this)
 	CRules @rules = getRules();
 	if (getGameTime() == 1)
 	{
-		ticks_to_bomb = 6740;
+		ticks_to_bomb = 195*30;
 	}
 	else if (!rules.isWarmup() && ticks_to_bomb >= 0)
 	{

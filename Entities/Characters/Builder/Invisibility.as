@@ -15,12 +15,6 @@ void onInit( CBlob@ this )
 
 void onTick( CBlob@ this ) 
 {	
-	int overTime = this.get_u32("invisibility");
-	if (overTime > 15*30)
-	{
-		this.set_u32("invisibility", 14*30);
-	}
-
 	bool ready = this.get_bool("invisibility ready");
 	const u32 gametime = getGameTime();
 	CControls@ controls = getControls();

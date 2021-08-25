@@ -16,12 +16,6 @@ void onInit( CBlob@ this )
 
 void onTick(CBlob@ this) 
 {	
-	int overTime = this.get_u32("shield");
-	if (overTime > 10*30)
-	{
-		this.set_u32("shield", 9.9*30);
-	}
-
 	bool ready = this.get_bool("shield ready");
 	const u32 gametime = getGameTime();
 	CControls@ controls = getControls();
