@@ -1,4 +1,5 @@
 //TDM gamemode logic script
+// str 542
 
 #define SERVER_ONLY
 
@@ -9,32 +10,59 @@
 //edit the variables in the config file below to change the basics
 // no scripting required!
 string cost_config_file = "tdm_vars.cfg";
-int16 ticks_to_bomb = 0;
+bool canRespawn = false;
 
-void onTick(CRules@ this)
-{
-	CRules @rules = getRules();
+int16 ticks_to_bomb = 0;
+int16 ticks_to_water = 0;
+void onTick(CRules@ this) 
+{	
+	CRules @rules = getRules();	
 	if (getGameTime() == 1)
 	{
-		ticks_to_bomb = 195*30;
+		ticks_to_bomb = 194*30;
+		ticks_to_water = 150*30;
 	}
 	else if (!rules.isWarmup() && ticks_to_bomb >= 0)
 	{
 		ticks_to_bomb -= 1;
+		ticks_to_water -= 1;
 	}
 
-    if (isServer() && ticks_to_bomb == 0) // appears on 20 second
+    if (isServer() && ticks_to_bomb == 0) 
     {
-        for (int i = 0; i < getPlayersCount(); i++) // loop through every player on server
+        for (int i = 0; i < getPlayersCount(); i++) 
         {
-            CBlob@ blob = getPlayer(i).getBlob(); // get player's blob
+            CBlob@ blob = getPlayer(i).getBlob(); 
 
-            if (blob is null) continue; // if blob is null (because player is dead, for example), skip this iteration
+            if (blob is null) continue;
 
-            if (blob.getName() == "knight" || blob.getName() == "fatcat")
+            if (blob.getName() == "knight"
+			|| blob.getName() == "fatcat"
+			|| blob.getName() == "roguecat")
             {
                 // create mat_bombs
-                CBlob@ bomb = server_CreateBlob("mat_bombs",            // blob name
+                CBlob@ bomb = server_CreateBlob("mat_bombs",           
+                                                -1,                    
+                                                blob.getPosition());  
+                bomb.server_SetQuantity(1); 
+                blob.server_PutInInventory(bomb);
+            }
+        }
+    }
+	   if (isServer() && ticks_to_bomb == 0) 
+    {
+        for (int i = 0; i < getPlayersCount(); i++) 
+        {
+            CBlob@ blob = getPlayer(i).getBlob();
+
+            if (blob is null) continue;
+
+            if (blob.getName() == "knight"
+			|| blob.getName() == "fatcat"
+			|| blob.getName() == "roguecat")
+            {
+               
+                CBlob@ bomb = server_CreateBlob("mat_waterbombs",            // blob name
                                                 -1,                     // blob team
                                                 blob.getPosition());    // position at which to spawn it
                 bomb.server_SetQuantity(1); // set amount to 1
@@ -42,17 +70,7 @@ void onTick(CRules@ this)
             }
         }
     }
-    /*if (getGameTime() <= 0 {
-	for (i = 0; i < getPlayersCount(); i++) {
-	CBlob@ blob = getPlayer(i).getBlob();
-        if (blob is null) continue;
-        if (blob.getName() == "knight") {
-		
-	    }
-	}
-    }*/
 }
-
 void Config(TDMCore@ this)
 {
 	CRules@ rules = getRules();
@@ -161,35 +179,74 @@ shared class TDMSpawns : RespawnSystem
 
 	void DoSpawnPlayer(PlayerInfo@ p_info)
 	{
-		if (force || canSpawnPlayer(p_info))
+		if (p_info.team == 0)
 		{
-			CPlayer@ player = getPlayerByUsername(p_info.username); // is still connected?
-
-			if (player is null)
+			if (getGameTime() == (45*30+60*30)
+			|| getGameTime() == (45*30+120*30)
+			|| getGameTime() == (45*30+180*30)
+			|| canSpawnPlayer(p_info))
 			{
-				RemovePlayerFromSpawn(p_info);
-				return;
+				CPlayer@ player = getPlayerByUsername(p_info.username); // is still connected?
+
+				if (player is null)
+				{
+					RemovePlayerFromSpawn(p_info);
+					return;
+				}
+				if (player.getTeamNum() != int(p_info.team))
+				{
+					player.server_setTeamNum(p_info.team);
+				}
+
+				// remove previous players blob
+				if (player.getBlob() !is null)
+				{
+					CBlob @blob = player.getBlob();
+					blob.server_SetPlayer(null);
+					blob.server_Die();
+				}
+
+				CBlob@ playerBlob = SpawnPlayerIntoWorld(getSpawnLocation(p_info), p_info);
+
+				if (playerBlob !is null)
+				{
+					// spawn resources
+					p_info.spawnsCount++;
+					RemovePlayerFromSpawn(player);
+				}
 			}
-			if (player.getTeamNum() != int(p_info.team))
+		} else 
+		{
+			if (force || canSpawnPlayer(p_info))
 			{
-				player.server_setTeamNum(p_info.team);
-			}
+				CPlayer@ player = getPlayerByUsername(p_info.username); // is still connected?
 
-			// remove previous players blob
-			if (player.getBlob() !is null)
-			{
-				CBlob @blob = player.getBlob();
-				blob.server_SetPlayer(null);
-				blob.server_Die();
-			}
+				if (player is null)
+				{
+					RemovePlayerFromSpawn(p_info);
+					return;
+				}
+				if (player.getTeamNum() != int(p_info.team))
+				{
+					player.server_setTeamNum(p_info.team);
+				}
 
-			CBlob@ playerBlob = SpawnPlayerIntoWorld(getSpawnLocation(p_info), p_info);
+				// remove previous players blob
+				if (player.getBlob() !is null)
+				{
+					CBlob @blob = player.getBlob();
+					blob.server_SetPlayer(null);
+					blob.server_Die();
+				}
 
-			if (playerBlob !is null)
-			{
-				// spawn resources
-				p_info.spawnsCount++;
-				RemovePlayerFromSpawn(player);
+				CBlob@ playerBlob = SpawnPlayerIntoWorld(getSpawnLocation(p_info), p_info);
+
+				if (playerBlob !is null)
+				{
+					// spawn resources
+					p_info.spawnsCount++;
+					RemovePlayerFromSpawn(player);
+				}
 			}
 		}
 	}
@@ -363,7 +420,7 @@ shared class TDMCore : RulesCore
 		}
 		else if (ticksToStart > 0 && rules.isWarmup()) //is the start of the game, spawn everyone + give mats
 		{
-			rules.SetGlobalMessage("Match starts in {SEC}");
+			rules.SetGlobalMessage("Match starts in {SEC} seconds!\nYou can switch classes at your respawn!\nCats will receive bombs on 15th second before game ending!");
 			rules.AddGlobalMessageReplacement("SEC", "" + ((ticksToStart / 30) + 1));
 			tdm_spawns.force = true;
 
@@ -402,9 +459,6 @@ shared class TDMCore : RulesCore
 		//  SpawnPowerups();
 		RulesCore::Update(); //update respawns
 		CheckTeamWon();
-
-		if (getGameTime() % 2000 == 0)
-			SpawnBombs();
 	}
 
 	void updateHUD()
@@ -536,9 +590,8 @@ shared class TDMCore : RulesCore
 					}
 				}
 			}
-
-		}
-	}
+		} 
+	} 
 
 	void onSetPlayer(CBlob@ blob, CPlayer@ player)
 	{
@@ -806,19 +859,6 @@ shared class TDMCore : RulesCore
 	{
 		CBlob@ powerup = server_CreateBlob("powerup", -1, Vec2f(getMap().tilesize * 0.5f * getMap().tilemapwidth, 50.0f));
 	}
-
-	void SpawnBombs()
-	{
-		Vec2f[] bombPlaces;
-		if (getMap().getMarkers("bombs", bombPlaces))
-		{
-			for (uint i = 0; i < bombPlaces.length; i++)
-			{
-				server_CreateBlob("mat_bombs", -1, bombPlaces[i]);
-			}
-		}
-	}
-
 
 	void GiveSpawnResources(CBlob@ blob, CPlayer@ player)
 	{

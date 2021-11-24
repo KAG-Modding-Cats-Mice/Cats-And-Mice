@@ -61,14 +61,18 @@ void onPlayerChangedTeam(CRules@ this, CPlayer@ player, u8 oldteam, u8 newteam)
 			playerBlob.ClearMenus();
 
 			camera.setPosition(playerBlob.getPosition());
-			deathTime = getGameTime();
-
+			if (playerBlob.getTeamNum() == 0)
+			{
+				deathTime = getGameTime() + 60 * getTicksASecond();
+			}
+			else
+			{
+				deathTime = 0;
+			}
 		}
-
 	}
 	else if (getLocalPlayer() is player)
 		spectatorTeam = false;
-
 }
 
 void resetHelpText()
@@ -98,14 +102,14 @@ void onPlayerDie(CRules@ this, CPlayer@ victim, CPlayer@ attacker, u8 customData
 			{
 				victimBlob.ClearButtons();
 				victimBlob.ClearMenus();
-
 				camera.setPosition(victimBlob.getPosition());
 				deathLock = victimBlob.getPosition();
 				SetTargetPlayer(null);
-
 			}
-			deathTime = getGameTime() + 2 * getTicksASecond();
-
+			if (victim.getTeamNum() == 0)
+			{
+				deathTime = getGameTime() + 60 * getTicksASecond();
+			}
 		}
 		else
 		{
@@ -115,7 +119,6 @@ void onPlayerDie(CRules@ this, CPlayer@ victim, CPlayer@ attacker, u8 customData
 				victimBlob.ClearMenus();
 
 			}
-
 			if (attackerBlob !is null)
 			{
 				SetTargetPlayer(attackerBlob.getPlayer());
@@ -126,8 +129,14 @@ void onPlayerDie(CRules@ this, CPlayer@ victim, CPlayer@ attacker, u8 customData
 				camera.setTarget(null);
 
 			}
-			deathTime = getGameTime() + 2 * getTicksASecond();
-
+			if (victim.getTeamNum() == 0)
+			{
+				deathTime = getGameTime() + 60 * getTicksASecond();
+			}
+			else
+			{
+				deathTime = 0;
+			}
 		}
 
 	}

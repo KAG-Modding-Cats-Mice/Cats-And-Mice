@@ -97,7 +97,7 @@ namespace Material
 
     CInventory@ inventory = this.getInventory();
 
-    // Filling matching materials
+    // Filling ing materials
     // inside the inventory first
     if (inventory !is null)
     {

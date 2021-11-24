@@ -15,6 +15,10 @@ void onInit( CBlob@ this )
 
 void onTick( CBlob@ this ) 
 {	
+	if (this.get_u32("invisible") > 15*30)
+	{
+		this.set_u32("invisible", 15*30 - 5); // checks if invisibility gone endless and sets it back to last ticks
+	}
 	bool ready = this.get_bool("invisibility ready");
 	const u32 gametime = getGameTime();
 	CControls@ controls = getControls();
@@ -63,7 +67,7 @@ void Invisibility(CBlob@ this) //check the anim and logic files too
 {	
 	//turn ourselves invisible
 	ParticleAnimated( "LargeSmoke.png", this.getPosition(), Vec2f(0,0), 0.0f, 1.0f, 1.5, -0.1f, false );
-	this.set_u32("invisible", 15*30); //15 secs
+	this.set_u32("invisible", 15*30);
 	this.Sync("invisible", true);
 	
     //sound

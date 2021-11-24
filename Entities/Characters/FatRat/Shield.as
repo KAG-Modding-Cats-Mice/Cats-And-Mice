@@ -16,6 +16,10 @@ void onInit( CBlob@ this )
 
 void onTick(CBlob@ this) 
 {	
+	if (this.get_u32("shield") > 15*30)
+	{
+		this.set_u32("shield", 15*30 - 5); // checks if this gone endless and sets it back to last ticks
+	}
 	bool ready = this.get_bool("shield ready");
 	const u32 gametime = getGameTime();
 	CControls@ controls = getControls();
@@ -84,9 +88,9 @@ void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
 
 void Shield(CBlob@ this)	
 {	
-	this.set_u32("shield", 10*30);
+	this.set_u32("shield", 15*30);
 	this.Sync("shield", true);
-	
+
 	Vec2f targetPos = this.getAimPos() + Vec2f(0.0f,-2.0f);
 	Vec2f userPos = this.getPosition() + Vec2f(0.0f,-2.0f);
 	Vec2f castDir = (targetPos- userPos);
@@ -95,12 +99,13 @@ void Shield(CBlob@ this)
 	Vec2f castPos = userPos + castDir; //exact position of effect
 
 	CBlob@ barrier = server_CreateBlob( "battering_ram" ); //creates "supershield"
+	this.getSprite().PlaySound("ShieldStart.ogg", 3.0f);
+
 	if (barrier !is null)
 	{
 		barrier.SetDamageOwnerPlayer( this.getPlayer() ); //<<important
 		barrier.server_setTeamNum( this.getTeamNum() );
 		barrier.setPosition( castPos );
 		barrier.setAngleDegrees(-castDir.Angle()+90.0f);
-		this.getSprite().PlaySound("ShieldStart.ogg", 3.0f);
 	}
 }

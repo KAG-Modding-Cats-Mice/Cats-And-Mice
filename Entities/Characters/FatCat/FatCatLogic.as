@@ -430,12 +430,6 @@ void onTick(CBlob@ this)
 	{
 		knight_clear_actor_limits(this);
 	}
-
-	if(this.get_u32("dash") >= 1) //lower the dash timer
-	{
-		this.set_u32("dash", this.get_u32("dash") - 1);
-	}	
-
 }
 
 bool getInAir(CBlob@ this)

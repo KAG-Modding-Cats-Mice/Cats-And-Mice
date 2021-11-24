@@ -216,7 +216,10 @@ void onTick(CBlob@ this)
 			sprite.PlaySound("DrillOverheat.ogg");
 		}
 
-		if (holder.getName() == required_class || sv_gamemode == "TDM")
+		if (holder.getName() == "builder"
+		|| holder.getName() == "fatrat"
+		|| holder.getName() == "minerrat" 
+		|| sv_gamemode == "TDM")
 		{
 			if (!holder.isKeyPressed(key_action1) || isKnocked(holder))
 			{

@@ -6,7 +6,7 @@
 bool canBePickedUp(CBlob@ this, CBlob@ byBlob)
 {
 	CPlayer@ byPlayer = byBlob.getPlayer();
-	if (byPlayer !is null && byPlayer.isMod())
+	if (byPlayer !is null)
 	{
  		return true;
 	} else

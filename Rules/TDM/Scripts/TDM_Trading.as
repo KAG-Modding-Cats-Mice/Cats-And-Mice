@@ -38,7 +38,7 @@ TradeItem@ addItemForCoin(CBlob@ this, const string &in name, int cost, const bo
 	TradeItem@ item = addTradeItem(this, name, 0, instantShipping, iconName, configFilename, description);
 	if (item !is null)
 	{
-		AddRequirement(item.reqs, "coin", "", "Coins", cost);
+		AddRequirement(item.reqs, "blob", "mat_gold", "Gold", cost);
 		item.buyIntoInventory = true;
 	}
 	return item;
@@ -72,9 +72,11 @@ void MakeTradeMenu(CBlob@ trader)
 	s32 cost_drill = cfg.read_s32("cost_drill", -1);
 	s32 cost_catapult = cfg.read_s32("cost_catapult", -1);
 	s32 cost_ballista = cfg.read_s32("cost_ballista", -1);
+	s32 cost_gramophone = cfg.read_s32("cost_gramophone", -1);
+	s32 cost_musicdisc = cfg.read_s32("cost_musicdisc", -1);
 
 	s32 menu_width = cfg.read_s32("trade_menu_width", 3);
-	s32 menu_height = cfg.read_s32("trade_menu_height", 5);
+	s32 menu_height = cfg.read_s32("trade_menu_height", 6);
 
 	// build menu
 	CreateTradeMenu(trader, Vec2f(menu_width, menu_height), "Buy weapons");
@@ -82,26 +84,17 @@ void MakeTradeMenu(CBlob@ trader)
 	//
 	addTradeSeparatorItem(trader, "$MENU_GENERIC$", Vec2f(3, 1));
 
-	//knighty stuff
-	addItemForCoin(trader, "Bomb", cost_bombs, true, "$mat_bombs$", "mat_bombs", Descriptions::bomb);
 	addItemForCoin(trader, "Water Bomb", cost_waterbombs, true, "$mat_waterbombs$", "mat_waterbombs", Descriptions::waterbomb);
-	addItemForCoin(trader, "Keg", cost_keg, true, "$keg$", "keg", Descriptions::keg);
 	addItemForCoin(trader, "Mine", cost_mine, true, "$mine$", "mine", Descriptions::mine);
-	//archery stuff
 	addItemForCoin(trader, "Arrows", cost_arrows, true, "$mat_arrows$", "mat_arrows", Descriptions::arrows);
-	addItemForCoin(trader, "Water Arrows", cost_waterarrows, true, "$mat_waterarrows$", "mat_waterarrows", Descriptions::waterarrows);
-	addItemForCoin(trader, "Fire Arrows", cost_firearrows, true, "$mat_firearrows$", "mat_firearrows", Descriptions::firearrows);
-	addItemForCoin(trader, "Bomb Arrow", cost_bombarrows, true, "$mat_bombarrows$", "mat_bombarrows", Descriptions::bombarrows);
-	//utility stuff
 	addItemForCoin(trader, "Sponge", cost_sponge, true, "$sponge$", "sponge", Descriptions::sponge);
 	addItemForCoin(trader, "Mounted Bow", cost_mountedbow, true, "$mounted_bow$", "mounted_bow", Descriptions::mounted_bow);
 	addItemForCoin(trader, "Drill", cost_drill, true, "$drill$", "drill", Descriptions::drill);
 	addItemForCoin(trader, "Boulder", cost_boulder, true, "$boulder$", "boulder", Descriptions::boulder);
-	addItemForCoin(trader, "Burger", cost_burger, true, "$food$", "food", Descriptions::food);
-	//vehicles
 	addItemForCoin(trader, "Catapult", cost_catapult, true, "$catapult$", "catapult", Descriptions::catapult);
-	addItemForCoin(trader, "Ballista", cost_ballista, true, "$ballista$", "ballista", Descriptions::ballista);
-
+	addItemForCoin(trader, "Burger", cost_burger, true, "$food$", "food", Descriptions::food);
+	addItemForCoin(trader, "Gramophone", cost_gramophone, true, "$gramophone$", "gramophone", Descriptions::boulder);
+	addItemForCoin(trader, "Music disc", cost_musicdisc, true, "$musicdisc$", "musicdisc", Descriptions::boulder);
 }
 
 // load coins amount

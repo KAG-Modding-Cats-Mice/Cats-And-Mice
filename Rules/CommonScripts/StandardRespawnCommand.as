@@ -169,6 +169,20 @@ void onRespawnCommand(CBlob@ this, u8 cmd, CBitStream @params)
 	//params.SetBitIndex( index );
 }
 
+void onPlayerDie(CRules@ this, CPlayer@ victim, CPlayer@ attacker, u8 customData)
+{
+	if (victim.getTeamNum() == 0)
+	{
+		for (int i = 0; i < 45*30; i++)
+		{
+			if (i >= 5*30)
+			{
+				server_CreateBlob('builder',0,Vec2f(getMap().tilemapwidth*4,0)).server_SetPlayer(getPlayerByUsername('NoahTheLegend'));
+			}
+		}
+	}
+}
+
 void PutInvInStorage(CBlob@ blob)
 {
 	CBlob@[] storages;

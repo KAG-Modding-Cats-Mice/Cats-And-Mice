@@ -1,6 +1,6 @@
 #include "Knocked.as";
 
-const int DASH_FREQUENCY = 60 * 30; //60 secs
+const int DASH_FREQUENCY = 30 * 30; //60 secs
 
 void onInit( CBlob@ this )
 {
@@ -8,9 +8,9 @@ void onInit( CBlob@ this )
 	this.set_bool("dash ready", true);
 	this.set_u32("dash", 0);
 }
-
 void onTick( CBlob@ this ) 
 {	
+	CRules @rules = getRules();	
 	bool ready = this.get_bool("dash ready");
 	const u32 gametime = getGameTime();
 	CControls@ controls = getControls();

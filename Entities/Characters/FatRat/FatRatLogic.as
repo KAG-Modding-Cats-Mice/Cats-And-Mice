@@ -29,7 +29,7 @@ void onInit(CBlob@ this)
 	this.addCommandID("pickaxe");
 	this.addCommandID("hitdata sync");
 
-    AddIconToken( "$Invisibility$", "Invisibility.png", Vec2f(16,16), 0 );
+    AddIconToken( "$Mining$", "Mining.png", Vec2f(16,16), 0 );
 
 	CShape@ shape = this.getShape();
 	shape.SetRotationsAllowed(false);
@@ -38,7 +38,7 @@ void onInit(CBlob@ this)
 	this.set_Vec2f("inventory offset", Vec2f(0.0f, 160.0f));
 
 	SetHelp(this, "help self action2", "builder", getTranslatedString("$Pick$Dig/Chop  $KEY_HOLD$$RMB$"), "", 3);
-    SetHelp( this, "help show", "builder", "$Invisibility$ Invisibility using B", "" );
+    SetHelp( this, "help show", "builder", "$Mining$ Mining using B", "" );
 
 	this.getCurrentScript().runFlags |= Script::tick_not_attached;
 	this.getCurrentScript().removeIfTag = "dead";

@@ -34,16 +34,16 @@ void addPlayerClass(CBlob@ this, string name, string iconName, string configFile
 }
 
 //helper for building menus of classes
-
+CRules @rules = getRules();
 void addClassesToMenuMice(CBlob@ this, CGridMenu@ menu, u16 callerID)
 {
-	if (getGameTime() <= 40 * 30)
+	if (getGameTime() <= 60*30 || rules.isWarmup())
 	{
 		PlayerClass[]@ classes;
 
 		if (this.get("playerclasses", @classes))
 		{
-			for (uint i = 0 ; i < classes.length/2 ; i++) //remove two last classes (cats)
+			for (uint i = 0 ; i < classes.length / 2; i++) 
 			{
 				PlayerClass @pclass = classes[i];
 
@@ -59,13 +59,13 @@ void addClassesToMenuMice(CBlob@ this, CGridMenu@ menu, u16 callerID)
 
 void addClassesToMenuCats(CBlob@ this, CGridMenu@ menu, u16 callerID)
 {
-	if (getGameTime() <= 40 * 30)
+	if (getGameTime() <= 60*30 || rules.isWarmup())
 	{
 		PlayerClass[]@ classes;
 
 		if (this.get("playerclasses", @classes))
 		{
-			for (uint i = classes.length/2 ; i < classes.length; i++) // remove first two classes (mice)
+			for (uint i = classes.length - 4; i < classes.length; i++)
 			{
 				PlayerClass @pclass = classes[i];
 
