@@ -91,7 +91,6 @@ void MakeTradeMenu(CBlob@ trader)
 	addItemForCoin(trader, "Mounted Bow", cost_mountedbow, true, "$mounted_bow$", "mounted_bow", Descriptions::mounted_bow);
 	addItemForCoin(trader, "Drill", cost_drill, true, "$drill$", "drill", Descriptions::drill);
 	addItemForCoin(trader, "Boulder", cost_boulder, true, "$boulder$", "boulder", Descriptions::boulder);
-	addItemForCoin(trader, "Catapult", cost_catapult, true, "$catapult$", "catapult", Descriptions::catapult);
 	addItemForCoin(trader, "Burger", cost_burger, true, "$food$", "food", Descriptions::food);
 	addItemForCoin(trader, "Gramophone", cost_gramophone, true, "$gramophone$", "gramophone", Descriptions::boulder);
 	addItemForCoin(trader, "Music disc", cost_musicdisc, true, "$musicdisc$", "musicdisc", Descriptions::boulder);

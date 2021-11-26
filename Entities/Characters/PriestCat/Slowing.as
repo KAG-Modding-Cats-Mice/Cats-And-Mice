@@ -3,7 +3,7 @@
 #include "RunnerCommon.as";
 
 //f32 SOUND_DISTANCE = 256.0f;
-const int SLOW_FREQUENCY = 6 * 30;
+const int SLOW_FREQUENCY = 45 * 30;
 const int MINING_FREQUENCY = 6 * 30;
 
 void onInit( CBlob@ this )
@@ -162,7 +162,7 @@ void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
 				blobs[i].set_bool("isslowed", true);
 				blobs[i].set_u32("sloww", 5*30);
 				blobs[i].getSprite().PlaySound("ShieldStart.ogg", 3.0f);
-				ParticleAnimated( "MediumSteam.png", blobs[i].getPosition(), Vec2f(0,0), 0.0f, 1.0f, 1.5, -0.1f, false );
+				ParticleAnimated( "MediumSmoke.png", blobs[i].getPosition(), Vec2f(0,0), 0.0f, 1.0f, 1.5, -0.1f, false );
 			}
 		}	
 	}
@@ -180,13 +180,8 @@ void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
 
       		if (blobs[i].getTeamNum() == 0)
       		{
-				for (int i = 0; i < blobs.length; i++)
-				{
-					if (blobs[i].getTeamNum() == 0)
-					{
-						blobs[i].Tag("mining");
-					}
-				}
+				blobs[i].set_bool("ismining", true);
+				blobs[i].set_u32("miningg", 4*30);
 				blobs[i].getSprite().PlaySound("ShieldStart.ogg", 3.0f);
 				ParticleAnimated( "MediumSteam.png", blobs[i].getPosition(), Vec2f(0,0), 0.0f, 1.0f, 1.5, -0.1f, false );
 			}
