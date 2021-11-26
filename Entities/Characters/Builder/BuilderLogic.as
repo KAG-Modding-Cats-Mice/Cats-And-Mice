@@ -45,6 +45,7 @@ void onInit(CBlob@ this)
 	this.getCurrentScript().removeIfTag = "dead";
 
 	this.set_bool("isslowed", false);
+	this.set_u32("sloww", 0);
 }
 
 void onSetPlayer(CBlob@ this, CPlayer@ player)
@@ -55,8 +56,6 @@ void onSetPlayer(CBlob@ this, CPlayer@ player)
 	}
 }
 
-u16 slowed = 0;
-
 void onTick(CBlob@ this)
 {
 	CRules @rules = getRules();
@@ -65,18 +64,12 @@ void onTick(CBlob@ this)
 		Sound::Play(squeak[XORRandom(squeak.length - 1)].filename, this.getPosition(), 1.5f, 1.0f);
 	}
 
-	slowed--;
+	this.set_u32("sloww", this.get_u32("sloww") - 1);
 
 	CSprite@ sprite = this.getSprite();
 	Animation@ animation_strike = sprite.getAnimation("strike");
 	Animation@ animation_chop = sprite.getAnimation("chop");
 
-	if (this.hasTag("slowed")) 
-	{
-		this.set_bool("isslowed", true);
-		slowed = 5*30;
-		this.Untag("slowed");
-	}
 	if (this.get_bool("isslowed") == false)
 	{
 		animation_strike.time = 2;
@@ -84,7 +77,7 @@ void onTick(CBlob@ this)
 	}
 	if (this.get_bool("isslowed"))
 	{
-		if (slowed <= 1) this.set_bool("isslowed", false);
+		if (this.get_u32("sloww") == 0) this.set_bool("isslowed", false);
 		animation_strike.time = 3;
 		animation_chop.time = 3;
 	}
