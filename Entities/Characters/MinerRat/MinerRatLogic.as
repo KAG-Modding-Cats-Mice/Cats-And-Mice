@@ -41,8 +41,8 @@ void onInit(CBlob@ this)
 	SetHelp(this, "help self action2", "builder", getTranslatedString("$Pick$Dig/Chop  $KEY_HOLD$$RMB$"), "", 3);
     SetHelp( this, "help show", "minerrat", "$Mining$ Mining using B", "" );
 
-	this.getCurrentScript().runFlags |= Script::tick_not_attached;
-	this.getCurrentScript().removeIfTag = "dead";
+	this.set_bool("isslowed", false);
+	this.set_u32("sloww", 0);
 }
 
 void onSetPlayer(CBlob@ this, CPlayer@ player)
@@ -53,21 +53,28 @@ void onSetPlayer(CBlob@ this, CPlayer@ player)
 	}
 }
 
-u16 ticks_to_sound = 0;
-
 void onTick(CBlob@ this)
 {
 	CRules @rules = getRules();
-	if (this !is null && getGameTime() % 300 == 0 && getGameTime() > 60*30+150*30)
+	if (this !is null && getGameTime() % 300 == 0 && getGameTime() > 60*30+140*30)
 	{
 		Sound::Play(squeak[XORRandom(squeak.length - 1)].filename, this.getPosition(), 1.5f, 1.0f);
 	}
-	
+
+	this.set_u32("sloww", this.get_u32("sloww") - 1);
+
 	CSprite@ sprite = this.getSprite();
 	Animation@ animation_strike = sprite.getAnimation("strike");
 	Animation@ animation_chop = sprite.getAnimation("chop");
-	if (this.hasTag("slowed")) 
+
+	if (this.get_bool("isslowed") == false)
 	{
+		animation_strike.time = 2;
+		animation_chop.time = 2;
+	}
+	if (this.get_bool("isslowed"))
+	{
+		if (this.get_u32("sloww") == 0) this.set_bool("isslowed", false);
 		animation_strike.time = 3;
 		animation_chop.time = 3;
 	}
