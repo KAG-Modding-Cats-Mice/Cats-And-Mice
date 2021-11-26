@@ -1,5 +1,6 @@
 // Builder logic
 
+#include "MiceSounds.as";
 #include "Hitters.as";
 #include "BuilderCommon.as";
 #include "ThrowCommon.as";
@@ -42,6 +43,8 @@ void onInit(CBlob@ this)
 
 	this.getCurrentScript().runFlags |= Script::tick_not_attached;
 	this.getCurrentScript().removeIfTag = "dead";
+
+	this.set_bool("isslowed", false);
 }
 
 void onSetPlayer(CBlob@ this, CPlayer@ player)
@@ -52,9 +55,30 @@ void onSetPlayer(CBlob@ this, CPlayer@ player)
 	}
 }
 
+u16 slowed = 0;
+
 void onTick(CBlob@ this)
 {
+	if (slowed > 1) slowed--;
 
+	CSprite@ sprite = this.getSprite();
+	Animation@ animation_strike = sprite.getAnimation("strike");
+	Animation@ animation_chop = sprite.getAnimation("chop");
+	if (this.hasTag("slowed")) 
+	{
+		slowed = 5*30;
+		this.Untag("slowed");
+	}
+	if (slowed > 1)
+	{
+		animation_strike.time = 3;
+		animation_chop.time = 3;
+	}
+	if (slowed <= 0)
+	{
+		animation_strike.time = 2;
+		animation_chop.time = 2;
+	}
 	if (this.isInInventory())
 		return;
 

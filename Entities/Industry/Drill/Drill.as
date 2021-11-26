@@ -33,7 +33,7 @@ const string required_class = "builder";
 
 bool canBePickedUp(CBlob@ this, CBlob@ blob)
 {
-	if (blob.getName() == "knight" || blob.getName() == "fatcat")
+	if (blob.getName() == "knight" || blob.getName() == "fatcat" || blob.getName() == "roguecat") 
 	{
 		return false; // locks pickup by knight
 	} 

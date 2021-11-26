@@ -434,12 +434,10 @@ void onTick(CBlob@ this)
     if (this.get_u32("slow") > 0)
 	{
 		this.set_u32("slow", this.get_u32("slow") - 1);
-		this.Sync("slow", true);
 	}	
 	if (this.get_u32("mining") > 0)
 	{
 		this.set_u32("mining", this.get_u32("mining") - 1);
-		this.Sync("mining", true);
 	}
 }
 

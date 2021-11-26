@@ -1,5 +1,6 @@
 // Builder logic
 
+#include "MiceSounds.as";
 #include "Hitters.as";
 #include "BuilderCommon.as";
 #include "ThrowCommon.as";
@@ -54,7 +55,14 @@ void onSetPlayer(CBlob@ this, CPlayer@ player)
 
 void onTick(CBlob@ this)
 {
-
+	CSprite@ sprite = this.getSprite();
+	Animation@ animation_strike = sprite.getAnimation("strike");
+	Animation@ animation_chop = sprite.getAnimation("chop");
+	if (this.hasTag("slowed")) 
+	{
+		animation_strike.time = 3;
+		animation_chop.time = 3;
+	}
 	if (this.isInInventory())
 		return;
 

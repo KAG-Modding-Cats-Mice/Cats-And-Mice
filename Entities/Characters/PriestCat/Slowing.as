@@ -28,12 +28,13 @@ void onTick( CBlob@ this )
 	map.getBlobsInRadius(this.getPosition(),50,@healblobs); // regen
 	for (int i = 0; i < healblobs.length; i++)
 	{
-		if (healblobs[i] is null || healblobs[i].getTeamNum() != this.getTeamNum() || healblobs[i].isMyPlayer()) continue;
-		if (getGameTime() % (3 * 30) == 0)
+		if (healblobs[i] is null || healblobs[i].isMyPlayer() || healblobs[i].getTeamNum() != this.getTeamNum() || healblobs[i].isMyPlayer()) continue;
+		if (getGameTime() % (10 * 30) == 0)
 		{
 			if (healblobs[i].getName() == "knight"
 			|| healblobs[i].getName() == "fatcat"
-			|| healblobs[i].getName() == "roguecat")
+			|| healblobs[i].getName() == "roguecat"
+			|| healblobs[i].getName() == "priestcat")
 			{
 				healblobs[i].server_Heal(0.5);
 				ParticleAnimated( "Heal.png", healblobs[i].getPosition(), Vec2f(0,0), 0.0f, 2.0f, 1.5, -0.1f, false );
@@ -41,6 +42,11 @@ void onTick( CBlob@ this )
 		}
 	}
 
+	bool ready = this.get_bool("slow ready");
+	bool readys = this.get_bool("mining ready");
+	const u32 gametime = getGameTime();
+	CControls@ controls = getControls();
+	CRules@ rules = getRules();
 	RunnerMoveVars@ moveVars;
 	CSprite@ sprite = this.getSprite();
 
@@ -52,29 +58,15 @@ void onTick( CBlob@ this )
     {
     	CBlob@ blob = getPlayer(i).getBlob();
 
-        if (blob is null) continue;
+        if (blob is null || blob.getTeamNum() != 1) continue;
 
-        if (blob.getTeamNum() == 1)
+        if (this.get_u32("slow") > 1)
         {
-			if (this.get_u32("slow") > 1 && blob !is null) 
-			{
-  				if (blob.get("moveVars", @moveVars) && blob.hasTag("slowed")) // setting slowness
-  	 			{
-    	 			moveVars.walkSpeed = 1.8f;
-		  			moveVars.walkSpeedInAir = 1.8f;
-		  			moveVars.walkFactor = 0.8f;
-    			}
-			} 
-			else 
-			{	
-				if (blob.get("moveVars", @moveVars) && blob.getTeamNum() == 1)
-  	 			{
-					moveVars.walkSpeed = 2.6f;
-					moveVars.walkSpeedInAir = 2.5f;
-					moveVars.walkFactor = 1.0f;
-				}
-				blob.Untag("slowed");
-			}
+			blob.Tag("slowed");
+		}
+		else if (this.get_u32("slow") <= 1)
+		{
+			blob.Untag("slowed");
 		}
 	}
 	for (int i = 0; i < getPlayersCount(); i++)
@@ -87,8 +79,7 @@ void onTick( CBlob@ this )
         {
 			if (blob !is null) 
 			{
-				Animation@ animation_strike = sprite.getAnimation("strike");
-				if (animation_strike !is null) animation_strike.time = 1;
+				
 			} 
 			else 
 			{	
@@ -101,27 +92,19 @@ void onTick( CBlob@ this )
 			}
 		}
 	}
-	bool ready = this.get_bool("slow ready");
-	bool readys = this.get_bool("mining ready");
-	const u32 gametime = getGameTime();
-	CControls@ controls = getControls();
-	CRules@ rules = getRules();
-	
-	if (ready && !rules.isWarmup()) 
+	if (ready && !rules.isWarmup()) // 
     {
 		if (this !is null)
 		{
-			if (isClient() && this.isMyPlayer())
+			if (controls.isKeyJustPressed(KEY_KEY_R))
 			{
-				if (controls.isKeyJustPressed(KEY_KEY_R))
-				{
-					this.set_u32("last slow", gametime);
-					this.set_bool("slow ready", false );
-					this.SendCommand(this.getCommandID("slow"));
-				}
+				this.set_u32("last slow", gametime);
+				this.set_bool("slow ready", false );
+				this.SendCommand(this.getCommandID("slow"));
 			}
 		}
-	} else 
+	}
+	else 
     {		
 		u32 lastSlow = this.get_u32("last slow");
 		int diff = gametime - (lastSlow + SLOW_FREQUENCY);
@@ -136,7 +119,7 @@ void onTick( CBlob@ this )
 			this.set_bool("slow ready", true );
 		}
 	}
-	if (readys) //
+	if (readys && !rules.isWarmup()) // 
     {
 		if (this !is null)
 		{
@@ -183,19 +166,12 @@ void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
 
       		if (blobs[i].getTeamNum() == 1)
       		{
-				for (int i = 0; i < blobs.length; i++)
-				{
-					if (blobs[i].getTeamNum() == 1)
-					{
-						blobs[i].Tag("slowed");
-					}
-				}
 				blobs[i].getSprite().PlaySound("ShieldStart.ogg", 3.0f);
-				ParticleAnimated( "LargeSmoke.png", blobs[i].getPosition(), Vec2f(0,0), 0.0f, 1.0f, 1.5, -0.1f, false );
+				ParticleAnimated( "MediumSteam.png", blobs[i].getPosition(), Vec2f(0,0), 0.0f, 1.0f, 1.5, -0.1f, false );
 			}
-		}
+		}	
 	}
-	 if (cmd == this.getCommandID("mining"))
+	if (cmd == this.getCommandID("mining"))
     {
 		CMap@ map = getMap();
 		CBlob@[] blobs;

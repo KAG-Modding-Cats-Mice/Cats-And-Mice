@@ -3,6 +3,7 @@
 
 #define SERVER_ONLY
 
+#include "MiceSounds.as";
 #include "TDM_Structs.as";
 #include "RulesCore.as";
 #include "RespawnSystem.as";
@@ -14,9 +15,46 @@ bool canRespawn = false;
 
 int16 ticks_to_bomb = 0;
 int16 ticks_to_water = 0;
+int16 ticks_to_sounddd = 0;
+
 void onTick(CRules@ this) 
 {	
-	CRules @rules = getRules();	
+	CRules @rules = getRules();
+	if (getGameTime() == 1)
+	{
+		ticks_to_sounddd = 150*30; // 2.5 min
+	}
+	else if (!rules.isWarmup() && ticks_to_sounddd > 0)
+	{
+		ticks_to_sounddd -= 1;
+	}
+
+    if (getGameTime() % 300 == 0 && ticks_to_sounddd == 0)
+    {
+    	for (int i = 0; i < getPlayersCount(); i++) // loop through every player on server
+       	{
+            CBlob@ blob = getPlayer(i).getBlob(); // get player's blob
+
+            if (blob is null) continue; // if blob is null (because player is dead, for example), skip this iteration
+
+            if (blob.getName() == "builder")
+            {
+	        Sound::Play(squeak[XORRandom(squeak.length - 1)].filename, blob.getPosition(), 1.5f, 1.0f);
+	        }
+			if (blob.getName() == "fatrat")
+            {
+	        Sound::Play(squeak[XORRandom(squeak.length - 1)].filename, blob.getPosition(), 1.5f, 1.0f);
+	        }
+			if (blob.getName() == "minerrat")
+            {
+	        Sound::Play(squeak[XORRandom(squeak.length - 1)].filename, blob.getPosition(), 1.5f, 1.0f);
+	        }
+			if (blob.getName() == "necrorat")
+            {
+	        Sound::Play(squeak[XORRandom(squeak.length - 1)].filename, blob.getPosition(), 1.5f, 1.0f);
+	        }
+        }
+    }
 	if (getGameTime() == 1)
 	{
 		ticks_to_bomb = 194*30;
@@ -49,7 +87,7 @@ void onTick(CRules@ this)
             }
         }
     }
-	   if (isServer() && ticks_to_bomb == 0) 
+	if (isServer() && ticks_to_water == 0) 
     {
         for (int i = 0; i < getPlayersCount(); i++) 
         {
@@ -181,9 +219,14 @@ shared class TDMSpawns : RespawnSystem
 	{
 		if (p_info.team == 0)
 		{
-			if (getGameTime() == (45*30+60*30)
+			if (getGameTime() == (45*30+30*30)
+			|| getGameTime() == (45*30+60*30)
+			|| getGameTime() == (45*30+90*30)
 			|| getGameTime() == (45*30+120*30)
+			|| getGameTime() == (45*30+150*30)
 			|| getGameTime() == (45*30+180*30)
+			|| getGameTime() == (45*30+210*30)
+			|| getGameTime() == (45*30+240*30)
 			|| canSpawnPlayer(p_info))
 			{
 				CPlayer@ player = getPlayerByUsername(p_info.username); // is still connected?

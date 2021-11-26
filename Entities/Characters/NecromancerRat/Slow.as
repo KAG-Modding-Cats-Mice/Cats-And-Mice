@@ -28,12 +28,13 @@ void onTick( CBlob@ this )
 	map.getBlobsInRadius(this.getPosition(),50,@healblobs); // regen
 	for (int i = 0; i < healblobs.length; i++)
 	{
-		if (healblobs[i] is null || healblobs[i].getTeamNum() != this.getTeamNum() || healblobs[i].isMyPlayer()) continue;
-		if (getGameTime() % (5 * 30) == 0)
+		if (healblobs[i] is null || healblobs[i].isMyPlayer() || healblobs[i].getTeamNum() != this.getTeamNum() || healblobs[i].isMyPlayer()) continue;
+		if (getGameTime() % (10 * 30) == 0)
 		{
 			if (healblobs[i].getName() == "builder"
 			|| healblobs[i].getName() == "fatrat"
-			|| healblobs[i].getName() == "minerrat")
+			|| healblobs[i].getName() == "minerrat"
+			|| healblobs[i].getName() == "necrorat")
 			{
 				healblobs[i].server_Heal(0.5);
 				ParticleAnimated( "Heal.png", healblobs[i].getPosition(), Vec2f(0,0), 0.0f, 2.0f, 1.5, -0.1f, false );
@@ -53,11 +54,11 @@ void onTick( CBlob@ this )
 
         if (blob is null) continue;
 
-        if (blob.getTeamNum() == 0)
+        if (blob.getTeamNum() == 0 && blob.getName() != "roguecat")
         {
 			if (this.get_u32("slow") > 1 && blob !is null) 
 			{
-  				if (blob.get("moveVars", @moveVars) && blob.hasTag("slowed")) // setting slowness
+  				if (blob.get("moveVars", @moveVars) && blob.hasTag("vslowed") && blob.getName() != "roguecat") // setting slowness
   	 			{
     	 			moveVars.walkSpeed = 1.8f;
 		  			moveVars.walkSpeedInAir = 1.8f;
@@ -66,14 +67,14 @@ void onTick( CBlob@ this )
 			} 
 			else 
 			{	
-				if (blob.get("moveVars", @moveVars) && blob.getTeamNum() == 0)
+				if (blob.get("moveVars", @moveVars) && blob.getTeamNum() == 0 && blob.getName() != "roguecat")
   	 			{
 					moveVars.walkSpeed = 2.6f;
 					moveVars.walkSpeedInAir = 2.5f;
 					moveVars.walkFactor = 1.0f;
-					if (blob.hasTag("slowed"))
+					if (blob.hasTag("vslowed"))
 					{
-						blob.Untag("slowed");
+						blob.Untag("vslowed");
 					}
 				}
 			}
@@ -165,7 +166,7 @@ void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
 				{
 					if (blobs[i].getTeamNum() == 0)
 					{
-						blobs[i].Tag("slowed");
+						blobs[i].Tag("vslowed");
 					}
 				}
 				blobs[i].getSprite().PlaySound("ShieldStart.ogg", 3.0f);
@@ -199,23 +200,50 @@ void Summon(CBlob@ this)
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
-		if (players > 5)
-		{
-			server_CreateBlob("Zombie", this.getTeamNum(), this.getPosition());
-			server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
-			server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
-		}
-		if (players > 10)
-		{
-			server_CreateBlob("Zombie", this.getTeamNum(), this.getPosition());
-			server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
-			server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
-		}
-		if (players > 16)
-		{
-			server_CreateBlob("Zombie", this.getTeamNum(), this.getPosition());
-			server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
-			server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
-		}
+	}
+	else if (players > 5 && players <= 10)
+	{
+		server_CreateBlob("Zombie", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Zombie", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Zombie", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+	}
+	else if (players > 10 && players <= 16)
+	{
+		server_CreateBlob("Zombie", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Zombie", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Zombie", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Zombie", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+	}
+	if (players > 16)
+	{
+		server_CreateBlob("Zombie", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Zombie", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Zombie", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Zombie", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Zombie", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 	}
 }
