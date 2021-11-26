@@ -77,14 +77,14 @@ void onTick(CBlob@ this)
 		slowed = 5*30;
 		this.Untag("slowed");
 	}
-	if (slowed <= 0 || this.get_bool("isslowed"))
+	if (this.get_bool("isslowed") == false)
 	{
-		this.set_bool("isslowed", false);
 		animation_strike.time = 2;
 		animation_chop.time = 2;
 	}
 	if (this.get_bool("isslowed"))
 	{
+		if (slowed <= 1) this.set_bool("isslowed", false);
 		animation_strike.time = 3;
 		animation_chop.time = 3;
 	}

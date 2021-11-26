@@ -50,20 +50,13 @@ void onTick( CBlob@ this )
 	RunnerMoveVars@ moveVars;
 	CSprite@ sprite = this.getSprite();
 
-	if (this.get_u32("slow") > 5*30)
-	{
-		this.set_u32("slow", 5*30 - 5);
-	}
 	for (int i = 0; i < getPlayersCount(); i++)
     {
     	CBlob@ blob = getPlayer(i).getBlob();
 
         if (blob is null || blob.getTeamNum() != 1) continue;
 
-        if (this.get_u32("slow") > 1)
-        {
-			blob.Tag("slowed");
-		}
+		if (!blob.hasTag("slowed")) blob.Tag("slowed");
 		else if (this.get_u32("slow") <= 1)
 		{
 			blob.Untag("slowed");
@@ -166,6 +159,7 @@ void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
 
       		if (blobs[i].getTeamNum() == 1)
       		{
+				blobs[i].Tag("slowed");
 				blobs[i].getSprite().PlaySound("ShieldStart.ogg", 3.0f);
 				ParticleAnimated( "MediumSteam.png", blobs[i].getPosition(), Vec2f(0,0), 0.0f, 1.0f, 1.5, -0.1f, false );
 			}
