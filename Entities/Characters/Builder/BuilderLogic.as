@@ -70,22 +70,25 @@ void onTick(CBlob@ this)
 	CSprite@ sprite = this.getSprite();
 	Animation@ animation_strike = sprite.getAnimation("strike");
 	Animation@ animation_chop = sprite.getAnimation("chop");
+
 	if (this.hasTag("slowed")) 
 	{
+		this.set_bool("isslowed", true);
 		slowed = 5*30;
 		this.Untag("slowed");
 	}
-	if (slowed > 1)
+	if (slowed <= 0 || this.get_bool("isslowed"))
+	{
+		this.set_bool("isslowed", false);
+		animation_strike.time = 2;
+		animation_chop.time = 2;
+	}
+	if (this.get_bool("isslowed"))
 	{
 		animation_strike.time = 3;
 		animation_chop.time = 3;
 	}
-	else
-	{
-		this.Untag("slowed");
-		animation_strike.time = 2;
-		animation_chop.time = 2;
-	}
+
 	if (this.isInInventory())
 		return;
 
