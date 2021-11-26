@@ -4,7 +4,7 @@
 
 //f32 SOUND_DISTANCE = 256.0f;
 const int SLOW_FREQUENCY = 45 * 30;
-const int MINING_FREQUENCY = 6 * 30;
+const int MINING_FREQUENCY = 75 * 30;
 
 void onInit( CBlob@ this )
 {
@@ -112,7 +112,7 @@ void onTick( CBlob@ this )
 			this.set_bool("slow ready", true );
 		}
 	}
-	if (readys && !rules.isWarmup()) // 
+	if (readys && !rules.isWarmup())
     {
 		if (this !is null)
 		{
@@ -162,7 +162,7 @@ void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
 				blobs[i].set_bool("isslowed", true);
 				blobs[i].set_u32("sloww", 5*30);
 				blobs[i].getSprite().PlaySound("ShieldStart.ogg", 3.0f);
-				ParticleAnimated( "MediumSmoke.png", blobs[i].getPosition(), Vec2f(0,0), 0.0f, 1.0f, 1.5, -0.1f, false );
+				ParticleAnimated( "LargeSmoke.png", blobs[i].getPosition(), Vec2f(0,0), 0.0f, 1.0f, 1.5, -0.1f, false );
 			}
 		}	
 	}

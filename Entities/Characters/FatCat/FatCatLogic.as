@@ -102,6 +102,9 @@ void onInit(CBlob@ this)
 
 	this.getCurrentScript().runFlags |= Script::tick_not_attached;
 	this.getCurrentScript().removeIfTag = "dead";
+
+	this.set_bool("ismining", false);
+	this.set_u32("mining", 0);
 }
 
 void onSetPlayer(CBlob@ this, CPlayer@ player)
@@ -205,6 +208,14 @@ void RunStateMachine(CBlob@ this, KnightInfo@ knight, RunnerMoveVars@ moveVars)
 
 void onTick(CBlob@ this)
 {
+	CRules @rules = getRules();
+	this.set_u32("miningg", this.get_u32("miningg") - 1);
+
+	if (this.get_u32("miningg") == 0)
+	{
+		this.set_bool("ismining", false);
+	}
+
 	bool knocked = isKnocked(this);
 	CHUD@ hud = getHUD();
 
@@ -1306,7 +1317,8 @@ void DoAttack(CBlob@ this, f32 damage, f32 aimangle, f32 arcdegrees, u8 type, in
 							if (jab) //fake damage
 							{
 								info.tileDestructionLimiter++;
-								canhit = ((info.tileDestructionLimiter % ((wood || dirt_stone) ? 3 : 2)) == 0);
+								if (!this.get_bool("ismining")) canhit = ((info.tileDestructionLimiter % ((wood || dirt_stone) ? 3 : 2)) == 0);
+								else canhit = true;
 							}
 							else //reset fake dmg for next time
 							{

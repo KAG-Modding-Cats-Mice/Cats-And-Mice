@@ -23,7 +23,7 @@ void onTick(CRules@ this)
 	if (getGameTime() == 1)
 	{
 		ticks_to_bomb = 194*30;
-		ticks_to_water = 135*30;
+		ticks_to_water = 150*30;
 	}
 	else if (!rules.isWarmup() && ticks_to_bomb >= 0)
 	{
