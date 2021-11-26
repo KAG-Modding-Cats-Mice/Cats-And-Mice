@@ -56,9 +56,24 @@ void onSetPlayer(CBlob@ this, CPlayer@ player)
 }
 
 u16 slowed = 0;
+int16 ticks_to_sounddd = 0;
 
 void onTick(CBlob@ this)
 {
+	CRules @rules = getRules();
+	if (getGameTime() == 1)
+	{
+		ticks_to_sounddd = 150*30; // 2.5 min
+	}
+	if (ticks_to_sounddd > 0 && !rules.isWarmup()) // add !iswarmup
+	{
+		ticks_to_sounddd -= 1;
+	}
+	if (this !is null && getGameTime() % 300 == 0)
+	{
+		if (ticks_to_sounddd <= 0) Sound::Play(squeak[XORRandom(squeak.length - 1)].filename, this.getPosition(), 1.5f, 1.0f);
+	}
+
 	slowed--;
 
 	CSprite@ sprite = this.getSprite();
@@ -74,8 +89,9 @@ void onTick(CBlob@ this)
 		animation_strike.time = 3;
 		animation_chop.time = 3;
 	}
-	if (slowed <= 0)
+	else
 	{
+		this.Untag("slowed");
 		animation_strike.time = 2;
 		animation_chop.time = 2;
 	}

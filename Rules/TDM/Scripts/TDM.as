@@ -15,46 +15,11 @@ bool canRespawn = false;
 
 int16 ticks_to_bomb = 0;
 int16 ticks_to_water = 0;
-int16 ticks_to_sounddd = 0;
 
 void onTick(CRules@ this) 
 {	
 	CRules @rules = getRules();
-	if (getGameTime() == 1)
-	{
-		ticks_to_sounddd = 1*30; // 2.5 min
-	}
-	if (ticks_to_sounddd > 0)
-	{
-		ticks_to_sounddd -= 1;
-	}
 
-    if (getGameTime() % 120 == 0 && ticks_to_sounddd == 0)
-    {
-    	for (int i = 0; i < getPlayersCount(); i++) // loop through every player on server
-       	{
-            CBlob@ blob = getPlayer(i).getBlob(); // get player's blob
-
-            if (blob is null) continue; // if blob is null (because player is dead, for example), skip this iteration
-
-            if (blob.getName() == "builder")
-            {
-	        Sound::Play(squeak[XORRandom(squeak.length - 1)].filename, blob.getPosition(), 1.5f, 1.0f);
-	        }
-			if (blob.getName() == "fatrat")
-            {
-	        Sound::Play(squeak[XORRandom(squeak.length - 1)].filename, blob.getPosition(), 1.5f, 1.0f);
-	        }
-			if (blob.getName() == "minerrat")
-            {
-	        Sound::Play(squeak[XORRandom(squeak.length - 1)].filename, blob.getPosition(), 1.5f, 1.0f);
-	        }
-			if (blob.getName() == "necrorat")
-            {
-	        Sound::Play(squeak[XORRandom(squeak.length - 1)].filename, blob.getPosition(), 1.5f, 1.0f);
-	        }
-        }
-    }
 	if (getGameTime() == 1)
 	{
 		ticks_to_bomb = 194*30;

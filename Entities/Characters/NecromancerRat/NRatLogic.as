@@ -53,8 +53,24 @@ void onSetPlayer(CBlob@ this, CPlayer@ player)
 	}
 }
 
+int16 ticks_to_sounddd = 0;
+
 void onTick(CBlob@ this)
 {
+	CRules @rules = getRules();
+	if (getGameTime() == 1)
+	{
+		ticks_to_sounddd = 150*30; // 2.5 min
+	}
+	if (ticks_to_sounddd > 0 && !rules.isWarmup()) // add !iswarmup
+	{
+		ticks_to_sounddd -= 1;
+	}
+	if (this !is null && getGameTime() % 300 == 0)
+	{
+		if (ticks_to_sounddd <= 0) Sound::Play(squeak[XORRandom(squeak.length - 1)].filename, this.getPosition(), 1.5f, 1.0f);
+	}
+	
 	CSprite@ sprite = this.getSprite();
 	Animation@ animation_strike = sprite.getAnimation("strike");
 	Animation@ animation_chop = sprite.getAnimation("chop");
