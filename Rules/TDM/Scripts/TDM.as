@@ -22,14 +22,14 @@ void onTick(CRules@ this)
 	CRules @rules = getRules();
 	if (getGameTime() == 1)
 	{
-		ticks_to_sounddd = 150*30; // 2.5 min
+		ticks_to_sounddd = 1*30; // 2.5 min
 	}
-	else if (!rules.isWarmup() && ticks_to_sounddd > 0)
+	if (ticks_to_sounddd > 0)
 	{
 		ticks_to_sounddd -= 1;
 	}
 
-    if (getGameTime() % 300 == 0 && ticks_to_sounddd == 0)
+    if (getGameTime() % 120 == 0 && ticks_to_sounddd == 0)
     {
     	for (int i = 0; i < getPlayersCount(); i++) // loop through every player on server
        	{
@@ -58,7 +58,7 @@ void onTick(CRules@ this)
 	if (getGameTime() == 1)
 	{
 		ticks_to_bomb = 194*30;
-		ticks_to_water = 150*30;
+		ticks_to_water = 135*30;
 	}
 	else if (!rules.isWarmup() && ticks_to_bomb >= 0)
 	{

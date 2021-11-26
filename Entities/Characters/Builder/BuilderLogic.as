@@ -59,7 +59,7 @@ u16 slowed = 0;
 
 void onTick(CBlob@ this)
 {
-	if (slowed > 1) slowed--;
+	slowed--;
 
 	CSprite@ sprite = this.getSprite();
 	Animation@ animation_strike = sprite.getAnimation("strike");
