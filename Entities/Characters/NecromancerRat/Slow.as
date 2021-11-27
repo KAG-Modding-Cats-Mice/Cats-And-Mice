@@ -198,6 +198,7 @@ void Summon(CBlob@ this)
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 	}
 	else if (players > 5 && players <= 10)
 	{
