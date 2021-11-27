@@ -105,6 +105,7 @@ void onInit(CBlob@ this)
 
 	this.set_bool("ismining", false);
 	this.set_u32("mining", 0);
+	this.Untag("vslowed");
 }
 
 void onSetPlayer(CBlob@ this, CPlayer@ player)
@@ -113,6 +114,7 @@ void onSetPlayer(CBlob@ this, CPlayer@ player)
 	{
 		player.SetScoreboardVars("ScoreboardIcons.png", 3, Vec2f(16, 16));
 	}
+	this.Untag("vslowed");
 }
 
 

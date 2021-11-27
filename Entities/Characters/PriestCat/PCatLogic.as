@@ -102,6 +102,7 @@ void onInit(CBlob@ this)
 
 	this.getCurrentScript().runFlags |= Script::tick_not_attached;
 	this.getCurrentScript().removeIfTag = "dead";
+	this.Untag("vslowed");
 }
 
 void onSetPlayer(CBlob@ this, CPlayer@ player)
@@ -110,6 +111,7 @@ void onSetPlayer(CBlob@ this, CPlayer@ player)
 	{
 		player.SetScoreboardVars("ScoreboardIcons.png", 3, Vec2f(16, 16));
 	}
+	this.Untag("vslowed");
 }
 
 

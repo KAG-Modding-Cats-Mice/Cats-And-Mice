@@ -49,11 +49,17 @@ void onTick(CBlob@ this)
 		}
 	}
 	RunnerMoveVars@ moveVars;
-    if (this.get("moveVars", @moveVars))
+    if (this.get("moveVars", @moveVars) && !this.hasTag("vslowed"))
     {
        moveVars.walkSpeed = 2.1f;
 	   moveVars.walkSpeedInAir = 2.1f;
     }
+	else if (this.hasTag("vslowed"))
+	{
+		moveVars.walkSpeed = 1.8f;
+		moveVars.walkSpeedInAir = 1.8f;
+		moveVars.walkFactor = 0.8f;
+	}
 }
 
 void onCommand( CBlob@ this, u8 cmd, CBitStream @params )

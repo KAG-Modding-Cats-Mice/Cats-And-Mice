@@ -67,11 +67,19 @@ void onTick( CBlob@ this )
 			} 
 			else 
 			{	
-				if (blob.get("moveVars", @moveVars) && blob.getTeamNum() == 0 && blob.getName() != "roguecat")
+				if (blob.get("moveVars", @moveVars) && blob.getTeamNum() == 0 && blob.getName() != "roguecat" || this.get_u32("slow") <= 1)
   	 			{
-					moveVars.walkSpeed = 2.6f;
-					moveVars.walkSpeedInAir = 2.5f;
-					moveVars.walkFactor = 1.0f;
+					if (blob.getName() == "fatcat")
+					{
+						moveVars.walkSpeed = 2.1f;
+	  					moveVars.walkSpeedInAir = 2.1f;
+						moveVars.walkFactor = 1.0f;
+					} else
+					{
+						moveVars.walkSpeed = 2.6f;
+						moveVars.walkSpeedInAir = 2.5f;
+						moveVars.walkFactor = 1.0f;
+					}
 					if (blob.hasTag("vslowed"))
 					{
 						blob.Untag("vslowed");
@@ -208,7 +216,7 @@ void Summon(CBlob@ this)
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
-
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 	}
 	else if (players > 10 && players <= 16)
 	{
