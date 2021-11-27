@@ -186,7 +186,7 @@ shared class TDMSpawns : RespawnSystem
 	{
 		if (p_info.team == 0)
 		{
-			if (getGameTime() == (60*30+60*30) // 1 min
+			if (getGameTime() == (60*30+90*30) // 1.5 min
 			|| getGameTime() == (60*30+150*30) // 2.5 min
 			|| canSpawnPlayer(p_info))
 			{

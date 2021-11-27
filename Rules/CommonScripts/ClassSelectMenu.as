@@ -60,7 +60,7 @@ void addClassesToMenuMice(CBlob@ this, CGridMenu@ menu, u16 callerID)
 void addClassesToMenuCats(CBlob@ this, CGridMenu@ menu, u16 callerID)
 {
 	if (getGameTime() <= 60*30 || rules.isWarmup() 
-	|| getGameTime() >= (60*30+60*30) && getGameTime() <= (60*30+65*30)
+	|| getGameTime() >= (60*30+90*30) && getGameTime() <= (60*30+95*30)
 	|| getGameTime() >= (60*30+150*30) && getGameTime() <= (60*30+155*30))
 	{
 		PlayerClass[]@ classes;

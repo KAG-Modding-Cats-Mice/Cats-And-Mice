@@ -63,7 +63,7 @@ void onPlayerChangedTeam(CRules@ this, CPlayer@ player, u8 oldteam, u8 newteam)
 			camera.setPosition(playerBlob.getPosition());
 			if (playerBlob.getTeamNum() == 0)
 			{
-				deathTime = getGameTime() + 60 * getTicksASecond();
+				deathTime = getGameTime() + 9999 * getTicksASecond();
 			}
 			else
 			{
@@ -108,7 +108,7 @@ void onPlayerDie(CRules@ this, CPlayer@ victim, CPlayer@ attacker, u8 customData
 			}
 			if (victim.getTeamNum() == 0)
 			{
-				deathTime = getGameTime() + 60 * getTicksASecond();
+				deathTime = getGameTime() + 9999 * getTicksASecond();
 			}
 		}
 		else
@@ -131,7 +131,7 @@ void onPlayerDie(CRules@ this, CPlayer@ victim, CPlayer@ attacker, u8 customData
 			}
 			if (victim.getTeamNum() == 0)
 			{
-				deathTime = getGameTime() + 60 * getTicksASecond();
+				deathTime = getGameTime() + 9999 * getTicksASecond();
 			}
 			else
 			{
