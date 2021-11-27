@@ -4,7 +4,7 @@
 
 //f32 SOUND_DISTANCE = 256.0f;
 const int SLOW_FREQUENCY = 45 * 30;
-const int MINING_FREQUENCY = 75 * 30;
+const int MINING_FREQUENCY = 80 * 30;
 
 void onInit( CBlob@ this )
 {
@@ -118,7 +118,7 @@ void onTick( CBlob@ this )
 		{
 			if (isClient() && this.isMyPlayer())
 			{
-				if (controls.isKeyJustPressed(KEY_KEY_B))
+				if (controls.isKeyJustPressed(KEY_KEY_V))
 				{
 					this.set_u32("last mining", gametime);
 					this.set_bool("mining ready", false );
@@ -131,7 +131,7 @@ void onTick( CBlob@ this )
 		u32 lastMining = this.get_u32("last mining");
 		int diff = gametime - (lastMining + MINING_FREQUENCY);
 		
-		if (controls.isKeyJustPressed(KEY_KEY_B) && this.isMyPlayer())
+		if (controls.isKeyJustPressed(KEY_KEY_V) && this.isMyPlayer())
 		{
 			Sound::Play("Entities/Characters/Sounds/NoAmmo.ogg");
 		}
@@ -181,7 +181,7 @@ void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
       		if (blobs[i].getTeamNum() == 0)
       		{
 				blobs[i].set_bool("ismining", true);
-				blobs[i].set_u32("miningg", 4*30);
+				blobs[i].set_u32("miningg", 5*30);
 				blobs[i].getSprite().PlaySound("ShieldStart.ogg", 3.0f);
 				ParticleAnimated( "MediumSteam.png", blobs[i].getPosition(), Vec2f(0,0), 0.0f, 1.0f, 1.5, -0.1f, false );
 			}

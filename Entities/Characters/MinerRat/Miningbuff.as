@@ -25,6 +25,7 @@ void onTick( CBlob@ this )
 	
 	if (this.get_bool("mining enable") == true)
 	{
+		this.set_bool("isslowed", false);
 		CSprite@ sprite = this.getSprite();
 		Animation@ animation_strike = sprite.getAnimation("strike");
 		Animation@ animation_chop = sprite.getAnimation("chop");

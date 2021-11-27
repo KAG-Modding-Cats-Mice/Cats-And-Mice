@@ -1,7 +1,7 @@
 #include "Knocked.as";
 
 //f32 SOUND_DISTANCE = 256.0f;
-const int MINING_FREQUENCY = 30 * 30; //60 secs
+const int MINING_FREQUENCY = 60 * 30;
 
 void onInit( CBlob@ this )
 {
@@ -68,7 +68,7 @@ void Mining(CBlob@ this) //check the anim and logic files too
 	CSprite@ sprite = this.getSprite();
 	Animation@ animation_strike = sprite.getAnimation("strike");
 	Animation@ animation_chop = sprite.getAnimation("chop");
-	for (int i = 0; i < 6*31; i++)
+	for (int i = 0; i < 7*30; i++)
 	{
 		if (i < 6*30)
 		{

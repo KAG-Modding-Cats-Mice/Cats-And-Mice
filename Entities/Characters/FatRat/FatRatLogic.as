@@ -30,8 +30,6 @@ void onInit(CBlob@ this)
 	this.addCommandID("pickaxe");
 	this.addCommandID("hitdata sync");
 
-    AddIconToken( "$Mining$", "Mining.png", Vec2f(16,16), 0 );
-
 	CShape@ shape = this.getShape();
 	shape.SetRotationsAllowed(false);
 	shape.getConsts().net_threshold_multiplier = 0.5f;

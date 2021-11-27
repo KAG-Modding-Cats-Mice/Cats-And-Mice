@@ -64,7 +64,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int team_num = 0, const stri
 	}
 	{
 		BuildBlock b(CMap::tile_goldenbrick, "tile_goldenbrick", "$goldblock$", "Cheese block\nCan be mined by cats");
-		AddRequirement(b.reqs, "blob", "mat_gold", "Cheese", 25);
+		AddRequirement(b.reqs, "blob", "mat_gold", "Cheese", 20);
 		blocks[0].push_back(b);
 	}
 	{

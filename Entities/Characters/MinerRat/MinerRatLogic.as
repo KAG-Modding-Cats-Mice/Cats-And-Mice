@@ -30,7 +30,7 @@ void onInit(CBlob@ this)
 	this.addCommandID("pickaxe");
 	this.addCommandID("hitdata sync");
 
-    AddIconToken( "$Mining$", "Mining.png", Vec2f(16,16), 0 );
+    AddIconToken( "$Mining$", "Miningbuff.png", Vec2f(16,16), 0 );
 
 	CShape@ shape = this.getShape();
 	shape.SetRotationsAllowed(false);
@@ -40,9 +40,6 @@ void onInit(CBlob@ this)
 
 	SetHelp(this, "help self action2", "builder", getTranslatedString("$Pick$Dig/Chop  $KEY_HOLD$$RMB$"), "", 3);
     SetHelp( this, "help show", "minerrat", "$Mining$ Mining using B", "" );
-
-	this.set_bool("isslowed", false);
-	this.set_u32("sloww", 0);
 }
 
 void onSetPlayer(CBlob@ this, CPlayer@ player)
@@ -61,23 +58,6 @@ void onTick(CBlob@ this)
 		Sound::Play(squeak[XORRandom(squeak.length - 1)].filename, this.getPosition(), 1.5f, 1.0f);
 	}
 
-	this.set_u32("sloww", this.get_u32("sloww") - 1);
-
-	CSprite@ sprite = this.getSprite();
-	Animation@ animation_strike = sprite.getAnimation("strike");
-	Animation@ animation_chop = sprite.getAnimation("chop");
-
-	if (this.get_bool("isslowed") == false)
-	{
-		animation_strike.time = 2;
-		animation_chop.time = 2;
-	}
-	if (this.get_bool("isslowed"))
-	{
-		if (this.get_u32("sloww") == 0) this.set_bool("isslowed", false);
-		animation_strike.time = 3;
-		animation_chop.time = 3;
-	}
 	if (this.isInInventory())
 		return;
 

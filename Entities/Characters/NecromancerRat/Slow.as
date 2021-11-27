@@ -3,7 +3,7 @@
 
 //f32 SOUND_DISTANCE = 256.0f;
 const int SLOW_FREQUENCY = 45 * 30;
-const int SUMMON_FREQUENCY = 75 * 30;
+const int SUMMON_FREQUENCY = 60 * 30;
 
 void onInit( CBlob@ this )
 {
@@ -121,7 +121,7 @@ void onTick( CBlob@ this )
 		{
 			if (isClient() && this.isMyPlayer())
 			{
-				if (controls.isKeyJustPressed(KEY_KEY_B))
+				if (controls.isKeyJustPressed(KEY_KEY_V))
 				{
 					this.set_u32("last summon", gametime);
 					this.set_bool("summon ready", false );
@@ -134,7 +134,7 @@ void onTick( CBlob@ this )
 		u32 lastSummon = this.get_u32("last summon");
 		int diff = gametime - (lastSummon + SUMMON_FREQUENCY);
 		
-		if (controls.isKeyJustPressed(KEY_KEY_B) && this.isMyPlayer())
+		if (controls.isKeyJustPressed(KEY_KEY_V) && this.isMyPlayer())
 		{
 			Sound::Play("Entities/Characters/Sounds/NoAmmo.ogg");
 		}
@@ -182,7 +182,7 @@ void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
 
 void Slow(CBlob@ this)
 {	
-	this.set_u32("slow", 5*30);
+	this.set_u32("slow", 7.5*30);
 }
 
 void Summon(CBlob@ this) 
@@ -195,8 +195,6 @@ void Summon(CBlob@ this)
 	if (players <= 5)
 	{
 		server_CreateBlob("Zombie", this.getTeamNum(), this.getPosition());
-		server_CreateBlob("Zombie", this.getTeamNum(), this.getPosition());
-		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
@@ -209,9 +207,7 @@ void Summon(CBlob@ this)
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
-		server_CreateBlob("Zombie", this.getTeamNum(), this.getPosition());
-		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
-		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+
 	}
 	else if (players > 10 && players <= 16)
 	{
@@ -224,9 +220,6 @@ void Summon(CBlob@ this)
 		server_CreateBlob("Zombie", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
-		server_CreateBlob("Zombie", this.getTeamNum(), this.getPosition());
-		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
-		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 	}
 	if (players > 16)
 	{
@@ -234,9 +227,6 @@ void Summon(CBlob@ this)
 		server_CreateBlob("Zombie", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
-		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
-		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
-		server_CreateBlob("Zombie", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Zombie", this.getTeamNum(), this.getPosition());

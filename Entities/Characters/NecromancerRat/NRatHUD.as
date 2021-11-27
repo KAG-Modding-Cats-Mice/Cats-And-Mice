@@ -88,11 +88,11 @@ void onRender(CSprite@ this)
 	if (difff > 0)
 	{
 		GUI::DrawIcon( "Summon.png", 0, Vec2f(16,16), Vec2f(11,198));
-		GUI::SetFont("menu"); GUI::DrawText("  B button", Vec2f(25,215), SColor(255, 255, 216, 0));
+		GUI::SetFont("menu"); GUI::DrawText("  V button", Vec2f(25,215), SColor(255, 255, 216, 0));
 	}
 	else
 	{
 		GUI::DrawIcon( "MenuItems.png", 13, Vec2f(32,32), Vec2f(10,198), 0.5f);
-		GUI::SetFont("menu"); GUI::DrawText("" + cooldownSummonSecs + "  B button", Vec2f(25,215), SColor(255, 255, 216, 0));
+		GUI::SetFont("menu"); GUI::DrawText("" + cooldownSummonSecs + "  V button", Vec2f(25,215), SColor(255, 255, 216, 0));
 	}
 }

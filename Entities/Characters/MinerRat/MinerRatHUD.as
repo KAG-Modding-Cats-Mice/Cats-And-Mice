@@ -71,7 +71,7 @@ void onRender(CSprite@ this)
 	
 	if (diff > 0)
 	{
-		GUI::DrawIcon( "Mining.png", 0, Vec2f(16,16), Vec2f(11,158));
+		GUI::DrawIcon( "Miningbuff.png", 0, Vec2f(16,16), Vec2f(11,158));
 		GUI::SetFont("menu"); GUI::DrawText("  R button", Vec2f(25,175), SColor(255, 255, 216, 0));
 	}
 	else

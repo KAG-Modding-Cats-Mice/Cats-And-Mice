@@ -42,7 +42,7 @@ void LoadSprites(CSprite@ this)
 	switch (armour)
 	{
 	case PLAYER_ARMOUR_STANDARD:
-		ensureCorrectRunnerTexture(this, "fatcat", "Fatkitty");
+		ensureCorrectRunnerTexture(this, "fatcat", "Fatcat");
 		break;
 	case PLAYER_ARMOUR_CAPE:
 		ensureCorrectRunnerTexture(this, "knight_cape", "KnightCape");

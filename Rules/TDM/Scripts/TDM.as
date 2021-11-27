@@ -41,7 +41,8 @@ void onTick(CRules@ this)
 
             if (blob.getName() == "knight"
 			|| blob.getName() == "fatcat"
-			|| blob.getName() == "roguecat")
+			|| blob.getName() == "roguecat"
+			|| blob.getName() == "priestcat")
             {
                 // create mat_bombs
                 CBlob@ bomb = server_CreateBlob("mat_bombs",           
@@ -62,7 +63,8 @@ void onTick(CRules@ this)
 
             if (blob.getName() == "knight"
 			|| blob.getName() == "fatcat"
-			|| blob.getName() == "roguecat")
+			|| blob.getName() == "roguecat"
+			|| blob.getName() == "priestcat")
             {
                
                 CBlob@ bomb = server_CreateBlob("mat_waterbombs",            // blob name
@@ -184,14 +186,8 @@ shared class TDMSpawns : RespawnSystem
 	{
 		if (p_info.team == 0)
 		{
-			if (getGameTime() == (45*30+30*30)
-			|| getGameTime() == (45*30+60*30)
-			|| getGameTime() == (45*30+90*30)
-			|| getGameTime() == (45*30+120*30)
-			|| getGameTime() == (45*30+150*30)
-			|| getGameTime() == (45*30+180*30)
-			|| getGameTime() == (45*30+210*30)
-			|| getGameTime() == (45*30+240*30)
+			if (getGameTime() == (60*30+60*30) // 1 min
+			|| getGameTime() == (60*30+150*30) // 2.5 min
 			|| canSpawnPlayer(p_info))
 			{
 				CPlayer@ player = getPlayerByUsername(p_info.username); // is still connected?
