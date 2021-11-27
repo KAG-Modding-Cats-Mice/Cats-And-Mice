@@ -27,7 +27,7 @@ namespace KnightVars
 	s32 resheath_slash_time = 2;
 	s32 slash_charge = 40;
 	s32 slash_charge_level2 = 999;
-	s32 slash_charge_limit = slash_charge_level2 + slash_charge + 10;
+	s32 slash_charge_limit = slash_charge_level2 + slash_charge + 999999;
 	s32 slash_move_time = 4;
 	s32 slash_time = 13;
 	s32 double_slash_time = 8;
