@@ -12,9 +12,9 @@ void onInit(CBlob@ this)
 	shape.AddPlatformDirection(Vec2f(0, -1), 89, false);
 	shape.SetRotationsAllowed(false);
 
-	this.server_setTeamNum(0); //allow anyone to break them
+	this.server_setTeamNum(-1); //allow anyone to break them
 	this.set_TileType("background tile", CMap::tile_wood_back);
-	this.set_s16(burn_duration , 300*10000);
+	this.set_s16(burn_duration , 300);
 	//transfer fire to underlying tiles
 	this.Tag(spread_fire_tag);
 
