@@ -1,44 +1,17 @@
-// Lever.as
+// PushButton.as
 
 #include "MechanismsCommon.as";
 #include "GenericButtonCommon.as";
-#include "dig.as";
 
-class Lever : Component
+class PushButton : Component
 {
-	Lever(Vec2f position)
+	PushButton(Vec2f position)
 	{
 		x = position.x;
 		y = position.y;
 	}
 };
 
-u32 timer; // container
-
-void onTick(CBlob@ this) // runs body every tick
-{
-    if (isClient() && this.get_u8("state") == 1)
-	{
-	timer++;
-	if (timer == 13)
-	{
-		this.getSprite().PlaySound(digDirt[XORRandom(3)].filename, 3.0f);
-	}
-	else if (timer == 25)
-	{
-		this.getSprite().PlaySound(digDirt[XORRandom(3)].filename, 3.0f);
-	}
-	else if (timer == 37)
-	{
-		this.getSprite().PlaySound(digDirt[XORRandom(3)].filename, 3.0f);
-	}
-	else if (timer == 49)
-	{
-		this.getSprite().PlaySound(digDirt[3].filename, 3.0f);
-		timer = 0;
-	}
-	}
-}
 void onInit(CBlob@ this)
 {
 	// used by BuilderHittable.as
@@ -53,10 +26,11 @@ void onInit(CBlob@ this)
 	// background, let water overlap
 	this.getShape().getConsts().waterPasses = true;
 
-	this.addCommandID("toggle");
+	this.addCommandID("activate");
 
-	AddIconToken("$lever_0$", "PushButton.png", Vec2f(16, 16), 4);
-	AddIconToken("$lever_1$", "PushButton.png", Vec2f(16, 16), 5);
+	AddIconToken("$pushbutton_1$", "PushButton.png", Vec2f(16, 16), 2);
+
+	this.getCurrentScript().tickIfTag = "active";
 }
 
 void onSetStatic(CBlob@ this, const bool isStatic)
@@ -65,7 +39,7 @@ void onSetStatic(CBlob@ this, const bool isStatic)
 
 	const Vec2f position = this.getPosition() / 8;
 
-	Lever component(position);
+	PushButton component(position);
 	this.set("component", component);
 
 	this.set_u8("state", 0);
@@ -90,62 +64,83 @@ void onSetStatic(CBlob@ this, const bool isStatic)
 
 	sprite.SetFacingLeft(false);
 	sprite.SetZ(-50);
-
-	CSpriteLayer@ layer = sprite.addSpriteLayer("background", "Lever.png", 8, 8);
-	layer.addAnimation("default", 0, false);
-	layer.animation.AddFrame(2);
-	layer.SetRelativeZ(-1);
 }
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)
 {
 	if (!canSeeButtons(this, caller)) return;
 
-	if (!this.isOverlapping(caller) || !this.getShape().isStatic()) return;
-
-	u8 state = this.get_u8("state");
-	string description = (state > 0)? "Deactivate" : "Activate";
+	if (!this.isOverlapping(caller) || !this.getShape().isStatic() || this.get_u8("state") != 0) return;
 
 	CButton@ button = caller.CreateGenericButton(
-	"$lever_"+state+"$",                        // icon token
+	"$pushbutton_1$",                           // icon token
 	Vec2f_zero,                                 // button offset
 	this,                                       // button attachment
-	this.getCommandID("toggle"),                // command id
-	description);                               // description
+	this.getCommandID("activate"),              // command id
+	getTranslatedString("Activate"));           // description
 
 	button.radius = 8.0f;
 	button.enableRadius = 20.0f;
 }
 
+void onTick(CBlob@ this)
+{
+	if (getGameTime() < this.get_u32("duration")) return;
+
+	Component@ component = null;
+	if (!this.get("component", @component)) return;
+
+	MapPowerGrid@ grid;
+	if (!getRules().get("power grid", @grid)) return;
+
+	// set state on server, sync to clients
+	this.set_u8("state", 0);
+	this.Sync("state", true);
+
+	this.Untag("active");
+
+	grid.setInfo(
+	component.x,                        // x
+	component.y,                        // y
+	INFO_SOURCE);                       // information
+}
+
 void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 {
-	if (cmd == this.getCommandID("toggle"))
+	if (cmd == this.getCommandID("activate"))
 	{
 		if (getNet().isServer())
 		{
+			// double check state, if state != 0, return
+			if (this.get_u8("state") != 0) return;
+
 			Component@ component = null;
 			if (!this.get("component", @component)) return;
 
 			MapPowerGrid@ grid;
 			if (!getRules().get("power grid", @grid)) return;
 
-			u8 state = this.get_u8("state") == 0? 1 : 0;
-			u8 info = state == 0? INFO_SOURCE : INFO_SOURCE | INFO_ACTIVE;
+			// only set tag on server, so only the server ticks
+			this.Tag("active");
 
-			this.set_u8("state", state);
+			this.set_u32("duration", getGameTime() + 36);
+
+			// set state, sync to clients
+			this.set_u8("state", 1);
 			this.Sync("state", true);
 
 			grid.setInfo(
 			component.x,                        // x
 			component.y,                        // y
-			info);                              // information
+			INFO_SOURCE | INFO_ACTIVE);         // information
 		}
 
 		CSprite@ sprite = this.getSprite();
 		if (sprite is null) return;
 
-		sprite.SetFrameIndex(this.get_u8("state"));
-		sprite.PlaySound("dig_dirt1");
+		sprite.SetAnimation("default");
+		sprite.SetAnimation("activate");
+		sprite.PlaySound("PushButton.ogg");
 	}
 }
 

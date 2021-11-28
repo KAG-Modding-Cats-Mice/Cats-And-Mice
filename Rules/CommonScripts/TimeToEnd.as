@@ -25,19 +25,6 @@ void onTick(CRules@ this)
 
 	this.set_s32("end_in", (s32(gameEndTime) - s32(getGameTime())) / 30);
 	this.Sync("end_in", true);
-
-	if (getGameTime() > gameEndTime)
-	{
-
-	//ends the game and sets the winning team
-
-	this.SetTeamWon(1);
-	this.SetGlobalMessage("Mice survived!\n they win!");	
-
-
-	//GAME OVER
-	this.SetCurrentState(3);
-	}
 }
 
 void onRender(CRules@ this)
