@@ -1328,7 +1328,7 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid, Vec2f normal, Vec2f point
 		}
 
 		//printf("knight.stat " + knight.state );
-		if (knight.state == KnightStates::shielddropping &&
+		if (this !is null && knight.state == KnightStates::shielddropping &&
 		        (!onground || isSliding(knight)) &&
 		        (blob.getShape() !is null && !blob.getShape().isStatic()) &&
 		        !isKnocked(blob))
