@@ -1316,10 +1316,7 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid, Vec2f normal, Vec2f point
 {
 	// return if we collided with map, solid (door/platform), or something non-fleshy (like a boulder)
 	// allow shieldbashing enemy bombs so knights can "deflect" them
-	if (blob is null || !solid || (!blob.hasTag("flesh") && blob.getName() != "bomb") || this.getTeamNum() == blob.getTeamNum())
-	{
-		return;
-	}
+
 
 	const bool onground = this.isOnGround();
 	if (this.getShape().vellen > SHIELD_KNOCK_VELOCITY || onground)
