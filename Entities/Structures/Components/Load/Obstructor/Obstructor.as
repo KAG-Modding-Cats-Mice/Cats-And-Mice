@@ -27,8 +27,6 @@ class Obstructor : Component
 			{
 				getMap().server_SetTile(this.getPosition(), Dummy::OBSTRUCTOR);
 			}
-
-			this.getSprite().PlaySound("door_close.ogg");
 		}
 		else
 		{
@@ -55,10 +53,6 @@ class Obstructor : Component
 		{
 			this.getSprite().SetEmitSoundPaused(true);
 
-			if (map.getTile(this.getPosition()).type == Dummy::OBSTRUCTOR)
-			{
-				this.getSprite().PlaySound("door_close.ogg");
-			}
 
 			if (getNet().isServer())
 			{
@@ -114,7 +108,6 @@ void onSetStatic(CBlob@ this, const bool isStatic)
 	{
 		sprite.SetZ(-50);
 		sprite.SetFacingLeft(false);
-		sprite.SetEmitSound("Jammed.ogg");
 	}
 }
 
@@ -136,7 +129,6 @@ void onTick(CBlob@ this)
 			if (sprite !is null)
 			{
 				sprite.SetEmitSoundPaused(true);
-				sprite.PlaySound("door_close.ogg");
 			}
 		}
 		else

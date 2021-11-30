@@ -412,11 +412,10 @@ void onTick(CBlob@ this)
 				}
 			}
 		}
+	// shield up = collideable
 
-		// shield up = collideable
-
-		if ((knight.state == KnightStates::shielding && direction == -1) ||
-		        knight.state == KnightStates::shieldgliding)
+	if ((knight.state == KnightStates::shielding && direction == -1) ||
+	        knight.state == KnightStates::shieldgliding)
 		{
 			if (!this.hasTag("shieldplatform"))
 			{
@@ -448,7 +447,6 @@ void onTick(CBlob@ this)
 	{
 		knight_clear_actor_limits(this);
 	}
-
 }
 
 bool getInAir(CBlob@ this)
@@ -1316,7 +1314,7 @@ void onCollision(CBlob@ this, CBlob@ blob, bool solid, Vec2f normal, Vec2f point
 {
 	// return if we collided with map, solid (door/platform), or something non-fleshy (like a boulder)
 	// allow shieldbashing enemy bombs so knights can "deflect" them
-	if (blob is null || blob.getShape().vellen > 1.0f)
+	if (blob is null || blob.getName() == "trampoline" || blob.getTeamNum() == 0 || blob.getShape().vellen > 1.0f)
 	{
 		return;
 	}

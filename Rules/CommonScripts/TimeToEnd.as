@@ -14,6 +14,17 @@ void onInit(CRules@ this)
 
 void onTick(CRules@ this)
 {
+	CBlob@[] crates;
+	getBlobsByName("crate", @crates);
+	if (crates.length > 15)
+	{
+		for (uint i = 0; i < crates.length; i++)
+		{
+			if (!crates[i].isAttached())
+			crates[i].server_Die();
+		}
+	}
+
 	if (!getNet().isServer() || !this.isMatchRunning() || this.get_bool("no timer"))
 	{
 		return;

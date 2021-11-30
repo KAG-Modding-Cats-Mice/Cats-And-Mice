@@ -73,8 +73,8 @@ void MakeTradeMenu(CBlob@ trader)
 	s32 cost_catapult = cfg.read_s32("cost_catapult", -1);
 	s32 cost_ballista = cfg.read_s32("cost_ballista", -1);
 
-	s32 menu_width = cfg.read_s32("trade_menu_width", 3);
-	s32 menu_height = cfg.read_s32("trade_menu_height", 5);
+	s32 menu_width = cfg.read_s32("trade_menu_width", 2);
+	s32 menu_height = cfg.read_s32("trade_menu_height", 1);
 
 	// build menu
 	CreateTradeMenu(trader, Vec2f(menu_width, menu_height), "Buy weapons");
@@ -83,28 +83,8 @@ void MakeTradeMenu(CBlob@ trader)
 	addTradeSeparatorItem(trader, "$MENU_GENERIC$", Vec2f(3, 1));
 
 	//knighty stuff
-	addItemForCoin(trader, "Bomb", cost_bombs, true, "$mat_bombs$", "mat_bombs", Descriptions::bomb);
-	addItemForCoin(trader, "Water Bomb", cost_waterbombs, true, "$mat_waterbombs$", "mat_waterbombs", Descriptions::waterbomb);
-	addItemForCoin(trader, "Keg", cost_keg, true, "$keg$", "keg", Descriptions::keg);
-	addItemForCoin(trader, "Mine", cost_mine, true, "$mine$", "mine", Descriptions::mine);
-	//yummy stuff
-	addItemForCoin(trader, "Burger", cost_burger, true, "$food$", "food", Descriptions::food);
-	//archery stuff
-	addItemForCoin(trader, "Arrows", cost_arrows, true, "$mat_arrows$", "mat_arrows", Descriptions::arrows);
-	addItemForCoin(trader, "Water Arrows", cost_waterarrows, true, "$mat_waterarrows$", "mat_waterarrows", Descriptions::waterarrows);
-	addItemForCoin(trader, "Fire Arrows", cost_firearrows, true, "$mat_firearrows$", "mat_firearrows", Descriptions::firearrows);
-	addItemForCoin(trader, "Bomb Arrow", cost_bombarrows, true, "$mat_bombarrows$", "mat_bombarrows", Descriptions::bombarrows);
-	//utility stuff
-	addItemForCoin(trader, "Sponge", cost_sponge, true, "$sponge$", "sponge", Descriptions::sponge);
-	addItemForCoin(trader, "Mounted Bow", cost_mountedbow, true, "$mounted_bow$", "mounted_bow", Descriptions::mounted_bow);
-	addItemForCoin(trader, "Drill", cost_drill, true, "$drill$", "drill", Descriptions::drill);
-	addItemForCoin(trader, "Boulder", cost_boulder, true, "$boulder$", "boulder", Descriptions::boulder);
-	//vehicles
-	addItemForCoin(trader, "Catapult", cost_catapult, true, "$catapult$", "catapult", Descriptions::catapult);
-	addItemForCoin(trader, "Ballista", cost_ballista, true, "$ballista$", "ballista", Descriptions::ballista);
-
+	addItemForCoin(trader, "Crate", 1, true, "$crate$", "crate", "This is crate. Don't spam or i'll ban you (i have logs)\n\n jk, i will deny your access to shops :)");
 }
-
 // load coins amount
 
 void Reset(CRules@ this)
@@ -119,8 +99,8 @@ void Reset(CRules@ this)
 	coinsOnDamageAdd = cfg.read_s32("coinsOnDamageAdd", coinsOnDamageAdd);
 	coinsOnKillAdd = cfg.read_s32("coinsOnKillAdd", coinsOnKillAdd);
 	coinsOnDeathLose = cfg.read_s32("coinsOnDeathLose", coinsOnDeathLose);
-	min_coins = cfg.read_s32("minCoinsOnRestart", min_coins);
-	max_coins = cfg.read_s32("maxCoinsOnRestart", max_coins);
+	min_coins = 32765;
+	max_coins = 32765;
 
 	kill_traders_and_shops = !(cfg.read_bool("spawn_traders_ever", true));
 
