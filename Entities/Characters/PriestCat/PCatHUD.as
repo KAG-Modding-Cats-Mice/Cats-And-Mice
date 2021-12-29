@@ -97,7 +97,7 @@ void onRender(CSprite@ this)
 	}
 	if (difff > 0)
 	{
-		GUI::DrawIcon( "Miningg.png", 0, Vec2f(16,16), Vec2f(11,198));
+		GUI::DrawIcon( "Mining.png", 0, Vec2f(16,16), Vec2f(11,198));
 		GUI::SetFont("menu"); GUI::DrawText("  V button", Vec2f(25,215), SColor(255, 255, 216, 0));
 	}
 	else

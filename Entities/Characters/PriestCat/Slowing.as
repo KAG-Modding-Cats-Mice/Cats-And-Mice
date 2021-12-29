@@ -3,8 +3,8 @@
 #include "RunnerCommon.as";
 
 //f32 SOUND_DISTANCE = 256.0f;
-const int SLOW_FREQUENCY = 45 * 30;
-const int MINING_FREQUENCY = 80 * 30;
+const int SLOW_FREQUENCY = 50 * 30;
+const int MINING_FREQUENCY = 70 * 30;
 
 void onInit( CBlob@ this )
 {
@@ -155,7 +155,8 @@ void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
 
 		for (int i = 0; i < blobs.length; i++)
   		{
-      		if (blobs[i] is null || blobs[i].getName() == "food") continue;
+      		if (blobs[i] is null || blobs[i].getName() == "food" || blobs[i].getName() == "ladder" || blobs[i].getName() == "tdm_spawn"
+			  || blobs[i].getName() == "ladder") continue;
 
       		if (blobs[i].getTeamNum() == 1)
       		{
@@ -180,9 +181,9 @@ void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
       		if (blobs[i].getTeamNum() == 0)
       		{
 				blobs[i].set_bool("ismining", true);
-				blobs[i].set_u32("miningg", 5*30);
+				blobs[i].set_u32("miningg", 6.5*30);
 				blobs[i].getSprite().PlaySound("ShieldStart.ogg", 3.0f);
-				ParticleAnimated( "MediumSteam.png", blobs[i].getPosition(), Vec2f(0,0), 0.0f, 1.0f, 1.5, -0.1f, false );
+				ParticleAnimated( "FireFlash.png", this.getPosition(), Vec2f(0,0), 0.0f, 2.0f, .5, -0.1f, false );
 			}
 		}
     }

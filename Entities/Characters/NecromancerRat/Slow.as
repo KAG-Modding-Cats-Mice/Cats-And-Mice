@@ -2,7 +2,7 @@
 #include "RunnerCommon.as";
 
 //f32 SOUND_DISTANCE = 256.0f;
-const int SLOW_FREQUENCY = 45 * 30;
+const int SLOW_FREQUENCY = 50 * 30;
 const int SUMMON_FREQUENCY = 60 * 30;
 
 void onInit( CBlob@ this )
@@ -178,7 +178,7 @@ void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
 					}
 				}
 				blobs[i].getSprite().PlaySound("ShieldStart.ogg", 3.0f);
-				ParticleAnimated( "LargeSmoke.png", blobs[i].getPosition(), Vec2f(0,0), 0.0f, 1.0f, 1.5, -0.1f, false );
+				ParticleZombieLightning(blobs[i].getPosition());
 			}
 		}
 	}

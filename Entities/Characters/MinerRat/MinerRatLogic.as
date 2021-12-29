@@ -53,7 +53,7 @@ void onSetPlayer(CBlob@ this, CPlayer@ player)
 void onTick(CBlob@ this)
 {
 	CRules @rules = getRules();
-	if (this !is null && getGameTime() % 300 == 0 && getGameTime() > 60*30+140*30)
+	if (this !is null && getGameTime() % 300 == 0 && getGameTime() > 50*30+140*30)
 	{
 		Sound::Play(squeak[XORRandom(squeak.length - 1)].filename, this.getPosition(), 1.5f, 1.0f);
 	}

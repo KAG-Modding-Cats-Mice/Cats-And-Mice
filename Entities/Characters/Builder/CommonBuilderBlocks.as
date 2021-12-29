@@ -41,6 +41,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int team_num = 0, const stri
 {
 	AddIconToken("$dirt$", "Sprites/world.png", Vec2f(8, 8), 456);
 	AddIconToken("$goldblock$", "Sprites/world.png", Vec2f(8, 8), 448);
+	AddIconToken("$barbedwire$", "BarbedWire.png", Vec2f(16, 16), 0);
 
 	InitCosts();
 	CRules@ rules = getRules();
@@ -54,7 +55,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int team_num = 0, const stri
 	const bool CTF = rules.gamemode_name == "CTF";
 	const bool TTH = rules.gamemode_name == "TTH";
 	const bool SBX = rules.gamemode_name == "Sandbox";
-
+	
 	BuildBlock[] page_0;
 	blocks.push_back(page_0);
 	{
@@ -64,7 +65,7 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int team_num = 0, const stri
 	}
 	{
 		BuildBlock b(CMap::tile_goldenbrick, "tile_goldenbrick", "$goldblock$", "Cheese block\nCan be mined by cats");
-		AddRequirement(b.reqs, "blob", "mat_gold", "Cheese", 20);
+		AddRequirement(b.reqs, "blob", "mat_gold", "Cheese", 25);
 		blocks[0].push_back(b);
 	}
 	{
@@ -72,19 +73,24 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int team_num = 0, const stri
 		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 30);
 		blocks[0].push_back(b);
 	}
-	/*{
+	{
 		BuildBlock b(0, "bridge", getTeamIcon("bridge", "Bridge.png", team_num), "Trap Bridge\nOnly your team can stand on it");
-		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 15);
+		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 45);
 		blocks[0].push_back(b);
-	}*/
+	}
 	{
 		BuildBlock b(0, "ladder", "$ladder$", "Ladder\nAnyone can climb it");
-		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 25);
+		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 20);
 		blocks[0].push_back(b);
 	}
 	{
 		BuildBlock b(0, "spikes", "$spikes$", "Spikes\nPlace on Stone Block\nfor Retracting Trap");
-		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 20);
+		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 15);
+		blocks[0].push_back(b);
+	}
+	{
+		BuildBlock b(CMap::tile_wood, "wood_block", "$wood_block$", "Wood Block\nCheap block\nwatch out for fire!");
+		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 50);
 		blocks[0].push_back(b);
 	}
 	{
@@ -97,6 +103,17 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int team_num = 0, const stri
 		BuildBlock b(0, "push_button", "$pushbutton$", "Fake dirt digging\n(toggle to enable!)");
 		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 10);
 		AddRequirement(b.reqs, "blob", "mat_gold", "Cheese", 15);
+		blocks[0].push_back(b);
+	}
+	{
+		BuildBlock b(0, "wooden_platform", "$wooden_platform$", "Abuse a cat!\n(dont abuse IRL!)");
+		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 30);
+		AddRequirement(b.reqs, "blob", "mat_gold", "Cheese", 15);
+		blocks[0].push_back(b);
+	}
+	{
+		BuildBlock b(0, "barbedwire", "$barbedwire$", "Barbed Wire\nHurts anyone who passes through it");
+		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 25);
 		blocks[0].push_back(b);
 	}
 	if (CTF)

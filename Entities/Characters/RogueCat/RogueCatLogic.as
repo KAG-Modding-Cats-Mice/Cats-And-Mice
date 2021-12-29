@@ -106,6 +106,7 @@ void onInit(CBlob@ this)
 	this.set_bool("ismining", false);
 	this.set_u32("mining", 0);
 	this.Untag("vslowed");
+	this.Tag("cat");
 }
 
 void onSetPlayer(CBlob@ this, CPlayer@ player)

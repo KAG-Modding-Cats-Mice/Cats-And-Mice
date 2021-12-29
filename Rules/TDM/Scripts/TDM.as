@@ -186,8 +186,8 @@ shared class TDMSpawns : RespawnSystem
 	{
 		if (p_info.team == 0)
 		{
-			if (getGameTime() == (60*30+60*30) // 1 min
-			|| getGameTime() == (60*30+150*30) // 2.5 min
+			if (getGameTime() == (50*30+60*30) // 1 min
+			|| getGameTime() == (50*30+150*30) // 2.5 min
 			|| canSpawnPlayer(p_info))
 			{
 				CPlayer@ player = getPlayerByUsername(p_info.username); // is still connected?

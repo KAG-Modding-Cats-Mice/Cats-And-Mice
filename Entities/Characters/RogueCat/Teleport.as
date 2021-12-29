@@ -85,7 +85,8 @@ void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
 
 void Teleport(CBlob@ this)
 {
-	ParticleAnimated( "LargeSmoke.png", this.getPosition(), Vec2f(0,0), 0.0f, 1.0f, 1.5, -0.1f, false );
+	ParticleAnimated( "SmallSmoke2.png", this.getPosition(), Vec2f(0,0), 10.0f, 3.0f, 2.5, -0.1f, false );
+	ParticleAnimated( "SmallSmoke2.png", this.getPosition(), Vec2f(0,0), 10.0f, 4.0f, 2.5, -0.1f, false );
 	this.set_u32("teleport", 2.5*30);
 	this.getSprite().PlaySound("tadumhuh.ogg", 3.5);
 }

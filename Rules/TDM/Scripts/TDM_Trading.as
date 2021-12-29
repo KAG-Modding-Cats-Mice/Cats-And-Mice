@@ -54,7 +54,7 @@ void MakeTradeMenu(CBlob@ trader)
 	ConfigFile cfg = ConfigFile();
 	cfg.loadFile(cost_config_file);
 
-	s32 cost_bombs = cfg.read_s32("cost_bombs", 20);
+	s32 cost_bombs = cfg.read_s32("cost_bombs", 200);
 	s32 cost_waterbombs = cfg.read_s32("cost_waterbombs", 40);
 	s32 cost_keg = cfg.read_s32("cost_keg", 80);
 	s32 cost_mine = cfg.read_s32("cost_mine", 50);
@@ -83,7 +83,7 @@ void MakeTradeMenu(CBlob@ trader)
 
 	//
 	addTradeSeparatorItem(trader, "$MENU_GENERIC$", Vec2f(3, 1));
-
+	addItemForCoin(trader, "Bomb", cost_bombs, true, "$mat_bombs$", "mat_bombs", Descriptions::bomb);
 	addItemForCoin(trader, "Water Bomb", cost_waterbombs, true, "$mat_waterbombs$", "mat_waterbombs", Descriptions::waterbomb);
 	addItemForCoin(trader, "Mine", cost_mine, true, "$mine$", "mine", Descriptions::mine);
 	addItemForCoin(trader, "Arrows", cost_arrows, true, "$mat_arrows$", "mat_arrows", Descriptions::arrows);

@@ -1,7 +1,7 @@
 #include "Knocked.as";
 #include "RunnerCommon.as"; //
 
-const int SHIELD_FREQUENCY = 75 * 30; // 75 secs
+const int SHIELD_FREQUENCY = 60 * 30; // 75 secs
 
 void onInit( CBlob@ this )
 {
@@ -16,9 +16,9 @@ void onInit( CBlob@ this )
 
 void onTick(CBlob@ this) 
 {	
-	if (this.get_u32("shield") > 15*30)
+	if (this.get_u32("shield") > 15030)
 	{
-		this.set_u32("shield", 15*30 - 5); // checks if this gone endless and sets it back to last ticks
+		this.set_u32("shield", 10*30 - 5); // checks if this gone endless and sets it back to last ticks
 	}
 	bool ready = this.get_bool("shield ready");
 	const u32 gametime = getGameTime();

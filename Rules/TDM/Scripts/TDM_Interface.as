@@ -113,7 +113,7 @@ void onRender(CRules@ this)
 			}
 			else if (spawn == 253)
 			{
-				GUI::DrawText(getTranslatedString("      Respawning for cats every game's half of a minute") , Vec2f(getScreenWidth() / 2 - 180, getScreenHeight() / 3 + Maths::Sin(getGameTime() / 3.0f) * 5.0f), SColor(255, 255, 255, 55));
+				GUI::DrawText(getTranslatedString("      Respawning for cats every game's minute") , Vec2f(getScreenWidth() / 2 - 180, getScreenHeight() / 3 + Maths::Sin(getGameTime() / 3.0f) * 5.0f), SColor(255, 255, 255, 55));
 			}
 			else
 			{

@@ -1,7 +1,7 @@
 #include "Knocked.as";
 
 //f32 SOUND_DISTANCE = 256.0f;
-const int MINING_FREQUENCY = 60 * 30; // 60 secs
+const int MINING_FREQUENCY = 65 * 30; // 60 secs
 
 void onInit( CBlob@ this )
 {
@@ -86,6 +86,12 @@ void Mining(CBlob@ this) //check the anim and logic files too
 {		
 	this.set_u32("mining", 5*30);
 	this.set_bool("mining enable", true);
+	ParticleAnimated( "SmallSteam.png", this.getPosition(), Vec2f(0.5,-0.25), 0.0f, 1.0f, 0.5, -0.1f, false );
+	ParticleAnimated( "SmallSteam.png", this.getPosition(), Vec2f(-0.5,-0.5), 0.0f, 1.5f, 1.0, -0.1f, false );
+	ParticleAnimated( "SmallSteam.png", this.getPosition(), Vec2f(1,-0.75), 0.0f, 2.0f, 1.5, -0.1f, false );
+	ParticleAnimated( "SmallSteam.png", this.getPosition(), Vec2f(-1,-1), 0.0f, 2.5f, 2.0, -0.1f, false );
+	ParticleAnimated( "SmallSteam.png", this.getPosition(), Vec2f(1,-1.25), 0.0f, 3.0f, 2.5, -0.1f, false );
+	ParticleAnimated( "SmallSteam.png", this.getPosition(), Vec2f(-1,-1.25), 0.0f, 3.0f, 2.5, -0.1f, false );
 	
     //sound
 	//CBlob@[] nearBlobs;
