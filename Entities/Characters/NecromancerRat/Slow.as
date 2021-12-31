@@ -2,8 +2,8 @@
 #include "RunnerCommon.as";
 
 //f32 SOUND_DISTANCE = 256.0f;
-const int SLOW_FREQUENCY = 50 * 30;
-const int SUMMON_FREQUENCY = 60 * 30;
+const int SLOW_FREQUENCY = 30 * 30;
+const int SUMMON_FREQUENCY = 50 * 30;
 
 void onInit( CBlob@ this )
 {
@@ -207,11 +207,15 @@ void Summon(CBlob@ this)
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 	}
 	else if (players > 5 && players <= 10)
 	{
 		server_CreateBlob("Zombie", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Zombie", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
@@ -229,6 +233,8 @@ void Summon(CBlob@ this)
 		server_CreateBlob("Zombie", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 	}
 	if (players > 16)
 	{
@@ -242,6 +248,8 @@ void Summon(CBlob@ this)
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Zombie", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
+		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 		server_CreateBlob("Skeleton", this.getTeamNum(), this.getPosition());
 	}

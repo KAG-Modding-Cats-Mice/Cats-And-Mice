@@ -208,28 +208,38 @@ namespace Material
 
     if (map.isTileThickStone(type))
     {
-      createFor(this, 'mat_stone', 3.f * damage);
+      if (getPlayersCount() >= 8) createFor(this, 'mat_stone', 3.f * damage);
+      else createFor(this, 'mat_stone', 2.f * damage);
     }
+
     else if (map.isTileStone(type))
     {
-      createFor(this, 'mat_stone', 2.f * damage);
+      int random = XORRandom(3);
+      if (getPlayersCount() >= 8) createFor(this, 'mat_stone', 2.f * damage);
+      else if (random == 2) createFor(this, 'mat_stone', 2.f * damage);
+      else createFor(this, 'mat_stone', 1.f * damage);
     }
+
     else if (map.isTileCastle(type))
     {
       createFor(this, 'mat_stone', damage);
     }
+
     else if (map.isTileWood(type))
     {
       createFor(this, 'mat_wood', damage);
     }
+
     else if (map.isTileGold(type))
     {
-      createFor(this, 'mat_gold', 3.f * damage);
+      if (getPlayersCount() >= 8) createFor(this, 'mat_gold', 3.f * damage);
+      else createFor(this, 'mat_gold', 2.f * damage);
     }
+
     //print("" + type + "" + damage + "");
     else if (isgoldblock)
     {
-      createFor(this, 'mat_gold', 1.f * damage);
+      createFor(this, 'mat_gold', 2.f * damage);
     }
   }
 }
