@@ -55,7 +55,7 @@ void MakeTradeMenu(CBlob@ trader)
 	cfg.loadFile(cost_config_file);
 
 	s32 cost_bombs = cfg.read_s32("cost_bombs", 75);
-	s32 cost_waterbombs = cfg.read_s32("cost_waterbombs", 40);
+	s32 cost_waterbombs = cfg.read_s32("cost_waterbombs", 20);
 	s32 cost_keg = cfg.read_s32("cost_keg", 80);
 	s32 cost_mine = cfg.read_s32("cost_mine", 50);
 
