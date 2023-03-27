@@ -59,7 +59,6 @@ void onTick( CBlob@ this )
 
 void onDie(CBlob@ this)
 {
-	
 	shieldSparks(this.getPosition(), 30, this.getAngleDegrees(), this.getTeamNum());
 	
 	this.getSprite().PlaySound("ShieldEnd.ogg", 1.0f, 1.0f);

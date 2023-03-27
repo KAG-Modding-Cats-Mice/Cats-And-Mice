@@ -71,9 +71,9 @@ void onTick(CSprite@ this)
 	{
 		blob.SetVisible(false);
 	}
-	if(blob.get_u32("invisible") == 1) //make a lightning effect when we're just about to become visible again
+	if(blob.get_u32("invisible") <= 1) //make a lightning effect when we're just about to become visible again
 	{
-		ParticleZombieLightning( blob.getPosition() );
+		if(blob.get_u32("invisible") == 1) ParticleZombieLightning( blob.getPosition() );
         blob.SetVisible(true); //make sure to make us visible again
 	}	
 
