@@ -72,9 +72,11 @@ void MakeTradeMenu(CBlob@ trader)
 	s32 cost_drill = cfg.read_s32("cost_drill", -1);
 	s32 cost_catapult = cfg.read_s32("cost_catapult", -1);
 	s32 cost_ballista = cfg.read_s32("cost_ballista", -1);
+	s32 cost_gramophone = cfg.read_s32("cost_gramophone", -1);
+	s32 cost_musicdisc = cfg.read_s32("cost_musicdisc", -1);
 
 	s32 menu_width = cfg.read_s32("trade_menu_width", 3);
-	s32 menu_height = cfg.read_s32("trade_menu_height", 5);
+	s32 menu_height = cfg.read_s32("trade_menu_height", 6);
 
 	// build menu
 	CreateTradeMenu(trader, Vec2f(menu_width, menu_height), "Buy weapons");
@@ -90,6 +92,8 @@ void MakeTradeMenu(CBlob@ trader)
 	addItemForCoin(trader, "Drill", cost_drill, true, "$drill$", "drill", Descriptions::drill);
 	addItemForCoin(trader, "Boulder", cost_boulder, true, "$boulder$", "boulder", Descriptions::boulder);
 	addItemForCoin(trader, "Burger", cost_burger, true, "$food$", "food", Descriptions::food);
+	addItemForCoin(trader, "Gramophone", cost_gramophone, true, "$gramophone$", "gramophone", Descriptions::boulder);
+	addItemForCoin(trader, "Music disc", cost_musicdisc, true, "$musicdisc$", "musicdisc", Descriptions::boulder);
 }
 
 // load coins amount
