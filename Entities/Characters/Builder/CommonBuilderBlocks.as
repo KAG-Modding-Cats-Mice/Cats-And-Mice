@@ -84,13 +84,13 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int team_num = 0, const stri
 		blocks[0].push_back(b);
 	}
 	{
-		BuildBlock b(0, "spikes", "$spikes$", "Spikes\nPlace on Stone Block\nfor Retracting Trap");
-		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 15);
+		BuildBlock b(CMap::tile_wood, "wood_block", "$wood_block$", "Wood Block\nCheap block\nwatch out for fire!");
+		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 50);
 		blocks[0].push_back(b);
 	}
 	{
-		BuildBlock b(CMap::tile_wood, "wood_block", "$wood_block$", "Wood Block\nCheap block\nwatch out for fire!");
-		AddRequirement(b.reqs, "blob", "mat_wood", "Wood", 50);
+		BuildBlock b(0, "spikes", "$spikes$", "Spikes\nPlace on Stone Block\nfor Retracting Trap");
+		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 15);
 		blocks[0].push_back(b);
 	}
 	{
@@ -111,11 +111,11 @@ void addCommonBuilderBlocks(BuildBlock[][]@ blocks, int team_num = 0, const stri
 		AddRequirement(b.reqs, "blob", "mat_gold", "Cheese", 15);
 		blocks[0].push_back(b);
 	}
-	{
-		BuildBlock b(0, "barbedwire", "$barbedwire$", "Barbed Wire\nHurts anyone who passes through it");
-		AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 25);
-		blocks[0].push_back(b);
-	}
+	//{
+	//	BuildBlock b(0, "barbedwire", "$barbedwire$", "Barbed Wire\nHurts anyone who passes through it");
+	//	AddRequirement(b.reqs, "blob", "mat_stone", "Stone", 25);
+	//	blocks[0].push_back(b);
+	//}
 	if (CTF)
 	{
 		BuildBlock b(0, "building", "$building$", "Workshop\nStand in an open space\nand tap this button.");

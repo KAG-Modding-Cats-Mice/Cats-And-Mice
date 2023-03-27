@@ -3,6 +3,8 @@
 #include "EmotesCommon.as"
 #include "StandardControlsCommon.as"
 
+bool zoomModifier = false; // decides whether to use the 3 zoom system or not
+int zoomModifierLevel = 4; // for the extra zoom levels when pressing the modifier key
 int zoomLevel = 1; // we can declare a global because this script is just used by myPlayer
 
 void onInit(CBlob@ this)
@@ -14,10 +16,12 @@ void onInit(CBlob@ this)
 	this.set_bool("release click", false);
 	this.set_bool("can button tap", true);
 	this.addCommandID("pickup");
-	this.addCommandID("putin");
+	this.addCommandID("putinheld");
 	this.addCommandID("getout");
 	this.addCommandID("detach");
 	this.addCommandID("cycle");
+	this.addCommandID("switch");
+	this.addCommandID("tap inventory key");
 
 	this.getCurrentScript().runFlags |= Script::tick_myplayer;
 	this.getCurrentScript().removeIfTag = "dead";
@@ -37,15 +41,19 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		return;
 	}
 
-	if (cmd == this.getCommandID("putin"))
+	if (cmd == this.getCommandID("putinheld"))
 	{
 		CBlob@ owner = getBlobByNetworkID(params.read_netid());
-		CBlob@ pick = getBlobByNetworkID(params.read_netid());
 
-		if (owner !is null && pick !is null)
+		putInHeld(owner);
+	}
+	else if (cmd == this.getCommandID("tap inventory key"))
+	{
+		CBlob@ owner = getBlobByNetworkID(params.read_netid());
+
+		if (!putInHeld(owner))
 		{
-			if (!owner.server_PutInInventory(pick))
-				owner.server_Pickup(pick);
+			this.SendCommand(this.getCommandID("cycle"));
 		}
 	}
 	else if (cmd == this.getCommandID("pickup"))
@@ -76,11 +84,21 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 	}
 }
 
+bool putInHeld(CBlob@ owner)
+{
+	if (owner is null) return false;
+
+	CBlob@ held = owner.getCarriedBlob();
+
+	if (held is null) return false;
+
+	return owner.server_PutInInventory(held);
+}
+
 bool ClickGridMenu(CBlob@ this, int button)
 {
 	CGridMenu @gmenu;
 	CGridButton @gbutton;
-	CBlob @pickBlob = this.getCarriedBlob();
 
 	if (this.ClickGridMenu(button, gmenu, gbutton))   // button gets pressed here - thing get picked up
 	{
@@ -88,9 +106,9 @@ bool ClickGridMenu(CBlob@ this, int button)
 		{
 			// if (gmenu.getName() == this.getInventory().getMenuName() && gmenu.getOwner() !is null)
 			{
-				if (pickBlob !is null && gbutton is null)    // carrying something, put it in
+				if (gbutton is null)    // carrying something, put it in
 				{
-					server_PutIn(this, gmenu.getOwner(), pickBlob);
+					server_PutInHeld(this, gmenu.getOwner());
 				}
 				else // take something
 				{
@@ -103,7 +121,6 @@ bool ClickGridMenu(CBlob@ this, int button)
 
 	return false;
 }
-
 
 void ButtonOrMenuClick(CBlob@ this, Vec2f pos, bool clear, bool doClosestClick)
 {
@@ -136,6 +153,8 @@ void onTick(CBlob@ this)
 	}
 	ManageCamera(this);
 
+	CControls@ controls = getControls();
+
 	// use menu
 
 	if (this.isKeyJustPressed(key_use))
@@ -157,7 +176,7 @@ void onTick(CBlob@ this)
 	}
 
 	CBlob @carryBlob = this.getCarriedBlob();
-	
+
 
 	// bubble menu
 
@@ -215,7 +234,7 @@ void onTick(CBlob@ this)
 			// this.ClearMenus();
 
 			//  Vec2f center =  getDriver().getScreenCenterPos(); // center of screen
-			Vec2f center = getControls().getMouseScreenPos();
+			Vec2f center = controls.getMouseScreenPos();
 			if (this.exists("inventory offset"))
 			{
 				this.CreateInventoryMenu(center + this.get_Vec2f("inventory offset"));
@@ -225,22 +244,15 @@ void onTick(CBlob@ this)
 				this.CreateInventoryMenu(center);
 			}
 
-			//getControls().setMousePosition( center );
+			//controls.setMousePosition( center );
 		}
 		else if (this.isKeyJustReleased(key_inventory))
 		{
 			if (isTap(this, 7))     // tap - put thing in inventory
 			{
-				if (carryBlob !is null && !carryBlob.hasTag("temp blob"))
-				{
-					server_PutIn(this, this, carryBlob);
-				}
-				else
-				{
-					// send cycle command
-					CBitStream params;
-					this.SendCommand(this.getCommandID("cycle"), params);
-				}
+				CBitStream params;
+				params.write_netid(this.getNetworkID());
+				this.SendCommand(this.getCommandID("tap inventory key"), params);
 
 				this.ClearMenus();
 				return;
@@ -268,7 +280,7 @@ void onTick(CBlob@ this)
 
 	if (getHUD().hasButtons())
 	{
-		if ((this.isKeyJustPressed(key_action1) /*|| getControls().isKeyJustPressed(KEY_LBUTTON)*/) && !this.isKeyPressed(key_pickup))
+		if ((this.isKeyJustPressed(key_action1) /*|| controls.isKeyJustPressed(KEY_LBUTTON)*/) && !this.isKeyPressed(key_pickup))
 		{
 			ButtonOrMenuClick(this, this.getAimPos(), false, true);
 			this.set_bool("release click", false);
@@ -290,6 +302,24 @@ void onTick(CBlob@ this)
 	//  //server_DropCoins( this.getAimPos(), 100 );
 	//  CBlob@ mat = server_CreateBlob( "cata_rock", 0, this.getAimPos());
 	//}
+
+	// keybinds
+
+	if (controls.ActionKeyPressed(AK_BUILD_MODIFIER))
+	{
+		EKEY_CODE[] keybinds = { KEY_KEY_1, KEY_KEY_2, KEY_KEY_3, KEY_KEY_4, KEY_KEY_5, KEY_KEY_6, KEY_KEY_7, KEY_KEY_8, KEY_KEY_9, KEY_KEY_0 };
+
+		// loop backwards so leftmost keybinds have priority
+		for (int i = keybinds.size() - 1; i >= 0; i--)
+		{
+			if (controls.isKeyJustPressed(keybinds[i]))
+			{
+				CBitStream params;
+				params.write_u8(i);
+				this.SendCommand(this.getCommandID("switch"), params);
+			}
+		}
+	}
 }
 
 // show dots on chat
@@ -321,14 +351,76 @@ void onRender(CSprite@ this)
 void AdjustCamera(CBlob@ this, bool is_in_render)
 {
 	CCamera@ camera = getCamera();
+	f32 zoom = camera.targetDistance;
 
-	camera.targetDistance = 1.8f;
+	f32 zoomSpeed = 0.1f;
+	if (is_in_render)
+	{
+		zoomSpeed *= getRenderApproximateCorrectionFactor();
+	}
+
+	f32 minZoom = 0.5f; // TODO: make vars
+	f32 maxZoom = 2.0f;
+
+	f32 zoom_target = 1.0f;
+
+	if (zoomModifier) {
+		switch (zoomModifierLevel) {
+			case 0:	zoom_target = 0.5f; zoomLevel = 0; break;
+			case 1: zoom_target = 0.5625f; zoomLevel = 0; break;
+			case 2: zoom_target = 0.625f; zoomLevel = 0; break;
+			case 3: zoom_target = 0.75f; zoomLevel = 0; break;
+			case 4: zoom_target = 1.0f; zoomLevel = 1; break;
+			case 5: zoom_target = 1.5f; zoomLevel = 1; break;
+			case 6: zoom_target = 2.0f; zoomLevel = 2; break;
+		}
+	} else {
+		switch (zoomLevel) {
+			case 0: zoom_target = 0.5f; zoomModifierLevel = 0; break;
+			case 1: zoom_target = 1.0f; zoomModifierLevel = 4; break;
+			case 2:	zoom_target = 2.0f; zoomModifierLevel = 6; break;
+		}
+	}
+
+	if (zoom > zoom_target)
+	{
+		zoom = Maths::Max(zoom_target, zoom - zoomSpeed);
+	}
+	else if (zoom < zoom_target)
+	{
+		zoom = Maths::Min(zoom_target, zoom + zoomSpeed);
+	}
+
+	camera.targetDistance = zoom;
 }
 
 void ManageCamera(CBlob@ this)
 {
 	CCamera@ camera = getCamera();
 	CControls@ controls = this.getControls();
+
+	// mouse look & zoom
+	if ((getGameTime() - this.get_s32("tap_time") > 5) && controls !is null)
+	{
+		if (controls.isKeyJustPressed(controls.getActionKeyKey(AK_ZOOMOUT)))
+		{
+			zoomModifier = controls.isKeyPressed(KEY_LCONTROL);
+
+			zoomModifierLevel = Maths::Max(0, zoomModifierLevel - 1);
+			zoomLevel = Maths::Max(0, zoomLevel - 1);
+
+			Tap(this);
+		}
+		else  if (controls.isKeyJustPressed(controls.getActionKeyKey(AK_ZOOMIN)))
+		{
+			zoomModifier = controls.isKeyPressed(KEY_LCONTROL);
+
+			zoomModifierLevel = Maths::Min(6, zoomModifierLevel + 1);
+			zoomLevel = Maths::Min(2, zoomLevel + 1);
+
+			Tap(this);
+		}
+	}
 
 	if (!this.hasTag("60fps_camera"))
 	{
@@ -359,7 +451,5 @@ void ManageCamera(CBlob@ this)
 	}
 
 	// camera
-	camera.mouseFactor = 0.35f; // doesn't affect soldat cam
+	camera.mouseFactor = 0.5f; // doesn't affect soldat cam
 }
-
-
